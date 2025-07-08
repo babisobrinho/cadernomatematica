@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caderno Virtual - Matemática TETPSI</title>
+    <link rel="icon" type="image/x-icon" href="favicon.svg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0a0e17 0%, #122a3a 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3), 0 4px 6px -2px rgba(34, 197, 94, 0.1);
+        }
+        .code-block {
+            background-color: #1e293b;
+            border-left: 4px solid #22c55e;
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+        }
+        .hero-bg {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 40% 20%, hsla(218,54%,20%,1) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, hsla(189,100%,19%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(211,100%,16%,1) 0px, transparent 50%);
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-bg {
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 20% 40%, hsla(218,54%,20%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 80%, hsla(189,100%,19%,1) 0px, transparent 50%),
+                radial-gradient(at 50% 0%, hsla(211,100%,16%,1) 0px, transparent 50%);
+        }
+        .math-symbol {
+            position: absolute;
+            color: rgba(34, 197, 94, 0.1);
+            font-size: 2rem;
+            animation: float 15s infinite linear;
+            pointer-events: none;
+            user-select: none;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-900 text-gray-100">
+    <nav class="bg-gray-800 border-b border-gray-700">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="p-1 bg-green-500 rounded-md flex items-center justify-center">
+                    <iconify-icon icon="solar:calculator-bold" class="text-gray-900 text-xl"></iconify-icon>
+                </div>
+                <span class="text-xl font-bold text-white code-font">Caderno<span class="text-green-400">Matemática</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-green-400 font-medium code-font">home()</a>
+                <a href="contents.html" class="text-gray-400 hover:text-green-400 transition code-font">conteudos()</a>
+                <a href="#" class="text-gray-400 hover:text-green-400 transition code-font">exercicios()</a>
+                <a href="#" class="text-gray-400 hover:text-green-400 transition code-font">ferramentas()</a>
+                <a href="#" class="text-gray-400 hover:text-green-400 transition code-font">recuperacao()</a>
+            </div>
+            <button class="md:hidden text-gray-400">
+                <iconify-icon icon="solar:hamburger-menu-linear" class="text-xl"></iconify-icon>
+            </button>
+        </div>
+    </nav>
+
+    <div class="hero-bg relative overflow-hidden">
+        <div class="math-symbol" style="top: 10%; left: 5%; animation-delay: 0s;">∑</div>
+        <div class="math-symbol" style="top: 20%; left: 80%; animation-delay: -2s;">∫</div>
+        <div class="math-symbol" style="top: 40%; left: 15%; animation-delay: -5s;">π</div>
+        <div class="math-symbol" style="top: 60%; left: 70%; animation-delay: -7s;">∞</div>
+        <div class="math-symbol" style="top: 30%; left: 50%; animation-delay: -10s;">√</div>
+        <div class="math-symbol" style="top: 80%; left: 30%; animation-delay: -12s;">Δ</div>
+        <div class="math-symbol" style="top: 15%; left: 40%; animation-delay: -8s;">θ</div>
+        <div class="math-symbol" style="top: 50%; left: 90%; animation-delay: -3s;">≠</div>
+        
+        <div class="container mx-auto px-4 py-16 md:py-24 relative z-10">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <div class="inline-flex items-center px-3 py-1 bg-gray-800 rounded-full text-green-400 text-sm code-font mb-4">
+                        <iconify-icon icon="solar:hashtag-bold" class="mr-1"></iconify-icon>
+                        <span>UFCD_5064</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                        Matemática para <span class="text-green-400">TETPSI</span><br>
+                        Conteúdo <span class="text-green-400">livre</span> e interativo
+                    </h1>
+                    <p class="text-lg text-gray-300 mb-8">
+                        Caderno virtual completo com teoria, exercícios e ferramentas para a UFCD 5064 de Matemática do curso TETPSI.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                        <a href="#conteudos" class="px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md shadow-md transition duration-300 text-center code-font glow-effect">
+                            explorar_conteudos()
+                        </a>
+                        <a href="#ferramentas" class="px-8 py-4 border-2 border-gray-600 bg-gray-800 hover:border-green-500 text-gray-100 hover:text-white font-medium rounded-lg shadow-sm transition duration-300 code-font transform hover:scale-105">
+                            ver_ferramentas()
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="bg-gray-800 rounded-lg shadow-2xl w-full max-w-md border border-gray-600">
+                        <div class="flex items-center px-4 py-2 bg-gray-700 rounded-t-lg">
+                            <div class="flex space-x-2 mr-4">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <div class="text-xs text-gray-400 code-font">
+                                terminal ~ caderno-matematica -- bash
+                            </div>
+                        </div>
+                        <div class="p-4 text-green-400 code-font text-sm">
+                            <div class="mb-2"><span class="text-purple-400">const</span> caderno = {</div>
+                            <div class="ml-4 mb-2">ufcd: <span class="text-blue-300">"5064"</span>,</div>
+                            <div class="ml-4 mb-2">curso: <span class="text-blue-300">"TETPSI"</span>,</div>
+                            <div class="ml-4 mb-2">acesso: <span class="text-blue-300">"livre"</span>,</div>
+                            <div class="ml-4">interativo: <span class="text-orange-400">true</span></div>
+                            <div>};</div>
+                            <div class="mt-4 text-gray-400">// Acesse agora: <span class="text-white">conteúdo completo</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-16" id="conteudos">
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-3 py-1 bg-gray-800 rounded-full text-green-400 text-sm code-font mb-4">
+                <iconify-icon icon="solar:folder-with-files-bold" class="mr-1"></iconify-icon>
+                <span>recursos</span>
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-4">Aprenda Matemática de Forma Prática</h2>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto">Conteúdo completo da UFCD 5064 com abordagem voltada para programação e sistemas de informação</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 transition-all duration-300 card-hover">
+                <div class="w-12 h-12 bg-green-900 rounded-lg flex items-center justify-center mb-4">
+                    <iconify-icon icon="solar:documents-bold" class="text-green-400 text-2xl"></iconify-icon>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2 code-font">TeoriaCompleta</h3>
+                <p class="text-gray-400">Todo o conteúdo da UFCD organizado com exemplos práticos e aplicações em programação.</p>
+                <div class="mt-4 text-xs text-gray-500 code-font">
+                    // Sistemas numéricos, lógica, conjuntos, probabilidades
+                </div>
+            </div>
+
+            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 transition-all duration-300 card-hover">
+                <div class="w-12 h-12 bg-green-900 rounded-lg flex items-center justify-center mb-4">
+                    <iconify-icon icon="solar:test-tube-bold" class="text-green-400 text-2xl"></iconify-icon>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2 code-font">ExerciciosInterativos</h3>
+                <p class="text-gray-400">Pratique com exercícios que fornecem feedback imediato e explicações detalhadas.</p>
+                <div class="mt-4 text-xs text-gray-500 code-font">
+                    // Correção automática e dicas
+                </div>
+            </div>
+
+            <div class="bg-gray-800 p-6 rounded-lg border border-gray-700 transition-all duration-300 card-hover">
+                <div class="w-12 h-12 bg-green-900 rounded-lg flex items-center justify-center mb-4">
+                    <iconify-icon icon="solar:atom-bold" class="text-green-400 text-2xl"></iconify-icon>
+                </div>
+                <h3 class="text-xl font-semibold text-white mb-2 code-font">FerramentasPraticas</h3>
+                <p class="text-gray-400">Conversores, simuladores e calculadoras para aplicar os conceitos aprendidos.</p>
+                <div class="mt-4 text-xs text-gray-500 code-font">
+                    // Sem instalação, roda no navegador
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-gray-800 py-16">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center px-3 py-1 bg-gray-700 rounded-full text-green-400 text-sm code-font mb-4">
+                    <iconify-icon icon="solar:bookmark-bold" class="mr-1"></iconify-icon>
+                    <span>conteudos</span>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-4">Conteúdos da UFCD 5064</h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">Todos os capítulos disponíveis para estudo imediato</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <a href="chapter1.html" class="group">
+                    <div class="bg-gray-700 p-6 rounded-lg border border-gray-600 h-ful group-hover:border-lime-500">
+                        <div class="w-14 h-14 bg-lime-900 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <iconify-icon icon="solar:calculator-minimalistic-bold" class="text-lime-400 text-2xl"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-white mb-2 group-hover:text-lime-400 code-font">SistemasNumeração</h3>
+                        <p class="text-gray-400 text-center">Bases numéricas, conversões entre bases e operações em binário/hexadecimal.</p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="text-sm text-lime-400 font-medium code-font">ver_capitulo() →</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="chapter2.html" class="group">
+                    <div class="bg-gray-700 p-6 rounded-lg border border-gray-600 h-full group-hover:border-emerald-500">
+                        <div class="w-14 h-14 bg-emerald-900 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <iconify-icon icon="solar:layers-bold" class="text-emerald-400 text-2xl"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-white mb-2 group-hover:text-emerald-400 code-font">TeoriaConjuntos</h3>
+                        <p class="text-gray-400 text-center">Operações com conjuntos, diagramas de Venn e aplicações em banco de dados.</p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="text-sm text-emerald-400 font-medium code-font">ver_capitulo() →</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="chapter3.html" class="group">
+                    <div class="bg-gray-700 p-6 rounded-lg border border-gray-600 h-full group-hover:border-teal-500">
+                        <div class="w-14 h-14 bg-teal-900 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <iconify-icon icon="solar:plus-minus-bold" class="text-teal-400 text-2xl"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-white mb-2 group-hover:text-teal-400 code-font">Lógica</h3>
+                        <p class="text-gray-400 text-center">Lógica proposicional, tabelas verdade e quantificadores.</p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="text-sm text-teal-400 font-medium code-font">ver_capitulo() →</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="chapter4.html" class="group">
+                    <div class="bg-gray-700 p-6 rounded-lg border border-gray-600 transition-all duration-300 h-full group-hover:border-cyan-500">
+                        <div class="w-14 h-14 bg-cyan-900 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <iconify-icon icon="solar:cpu-bold" class="text-cyan-400 text-2xl"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-white mb-2 group-hover:text-cyan-400 code-font">ÁlgebraBoole</h3>
+                        <p class="text-gray-400 text-center">Portas lógicas, circuitos digitais e simplificação de expressões.</p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="text-sm text-cyan-400 font-medium code-font">ver_capitulo() →</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="chapter5.html" class="group">
+                    <div class="bg-gray-700 p-6 rounded-lg border border-gray-600 transition-all duration-300 h-full group-hover:border-sky-500">
+                        <div class="w-14 h-14 bg-sky-900 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <iconify-icon icon="solar:widget-bold" class="text-sky-400 text-2xl"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-white mb-2 group-hover:text-sky-400 code-font">Matrizes</h3>
+                        <p class="text-gray-400 text-center">Operações com matrizes, determinantes e aplicações em programação.</p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="text-sm text-sky-400 font-medium code-font">ver_capitulo() →</span>
+                        </div>
+                    </div>
+                </a>
+                <a href="chapter6.html" class="group">
+                    <div class="bg-gray-700 p-6 rounded-lg border border-gray-600 transition-all duration-300 h-full group-hover:border-blue-500">
+                        <div class="w-14 h-14 bg-blue-900 rounded-full flex items-center justify-center mb-4 mx-auto">
+                            <iconify-icon icon="solar:pie-chart-2-bold" class="text-blue-400 text-2xl"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-white mb-2 group-hover:text-blue-400 code-font">Estatística</h3>
+                        <p class="text-gray-400 text-center">Probabilidades, análise combinatória e aplicações em ciência de dados.</p>
+                        <div class="mt-4 flex justify-center">
+                            <span class="text-sm text-blue-400 font-medium code-font">ver_capitulo() →</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="mt-16 text-center">
+                <div class="inline-flex items-center px-3 py-1 bg-gray-700 rounded-full text-green-400 text-sm code-font mb-4">
+                    <iconify-icon icon="solar:document-text-bold" class="mr-1"></iconify-icon>
+                    <span>trabalhos</span>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-4">Trabalhos e Fichas</h2>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-6">Conteúdo completo dos trabalhos e fichas de recuperação</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                    <a href="#" class="group">
+                        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 group-hover:border-green-500 h-fulll w-full flex items-center justify-center">
+                            <div class="inset-0 flex flex-col items-center justify-center p-4">
+                                <h3 class="text-lg font-semibold text-center text-white code-font mb-3">OperadoresLógicos</h3>
+                                <div class="text-center">
+                                    <div class="inline-flex gap-1 items-center text-green-400 text-xs code-font flex-wrap align-center justify-center">
+                                        <span class="px-3 py-1 bg-gradient-to-br from-green-500/10 to-transparent rounded-full mb-1">#Recuperação1</span>
+                                        <span class="px-3 py-1 bg-gradient-to-br from-green-500/10 to-transparent rounded-full mb-1">#OperadoresLógicos</span>
+                                        <span class="px-3 py-1 bg-gradient-to-br from-green-500/10 to-transparent rounded-full mb-1">#ÁlgebraBoole</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <span class="text-sm text-green-400 font-medium code-font">acessar_trabalho() →</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="group">
+                        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 group-hover:border-green-500 h-full w-full flex items-center justify-center">
+                            <div class="inset-0 flex flex-col items-center justify-center p-4">
+                                <h3 class="text-lg font-semibold text-center text-white code-font mb-3">BactériasTriCromossomáticas</h3>
+                                <div class="text-center">
+                                    <div class="inline-flex gap-1 items-center text-green-400 text-xs code-font flex-wrap align-center justify-center">
+                                        <span class="px-3 py-1 bg-gradient-to-br from-green-500/10 to-transparent rounded-full mb-1">#Recuperação1</span>
+                                        <span class="px-3 py-1 bg-gradient-to-br from-green-500/10 to-transparent rounded-full mb-1">#Recuperação2</span>
+                                        <span class="px-3 py-1 bg-gradient-to-br from-green-500/10 to-transparent rounded-full mb-1">#Estatística</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <span class="text-sm text-green-400 font-medium code-font">acessar_trabalho() →</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="group">
+                        <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-4 group-hover:border-green-500 h-fulll w-full flex items-center justify-center">
+                            <div class="inset-0 flex flex-col items-center justify-center p-4">
+                                <h3 class="text-lg font-semibold text-center text-white code-font mb-3">TiposSangueHumano</h3>
+                                <div class="text-center">
+                                    <div class="inline-flex gap-1 items-center text-green-400 text-xs code-font flex-wrap align-center justify-center">
+                                        <span class="px-3 py-1 bg-gradient-to-br from-green-500/10 to-transparent rounded-full mb-1">#FichaApoio</span>
+                                        <span class="px-3 py-1 bg-gradient-to-br from-green-500/10 to-transparent rounded-full mb-1">#Recuperação2</span>
+                                        <span class="px-3 py-1 bg-gradient-to-br from-green-500/10 to-transparent rounded-full mb-1">#Genética</span>
+                                    </div>
+                                    <div class="mt-2">
+                                        <span class="text-sm text-green-400 font-medium code-font">acessar_trabalho() →</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-16" id="ferramentas">
+
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center px-3 py-1 bg-gray-800 rounded-full text-green-400 text-sm code-font mb-4">
+                <iconify-icon icon="solar:atom-bold" class="mr-1"></iconify-icon>
+                <span>ferramentas</span>
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-4">Ferramentas Interativas</h2>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto">Utilize nossas ferramentas práticas para auxiliar nos estudos de matemática</p>
+        </div>
+
+        <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700">
+            <div class="flex items-center px-4 py-3 bg-gray-700 border-b border-gray-600">
+                <div class="flex space-x-2 mr-4">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="text-sm text-gray-400 code-font">
+                    ferramentas-interativas.js
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-4 code-font">Ferramentas Matemáticas</h3>
+                        <div class="code-block p-4 rounded mb-6">
+                            <pre class="text-green-400 code-font text-sm">
+<span class="text-gray-500">// Ferramentas disponíveis para praticar</span>
+<span class="text-purple-400">const</span> ferramentas = [
+  <span class="text-blue-300">"Conversor de Bases Numéricas"</span>,
+  <span class="text-blue-300">"Visualizador de Diagramas de Venn"</span>,
+  <span class="text-blue-300">"Simulador de Portas Lógicas"</span>,
+  <span class="text-blue-300">"Calculadora de Probabilidades"</span>
+];
+
+<span class="text-gray-500">// Use diretamente no navegador</span>
+<span class="text-purple-400">function</span> <span class="text-yellow-300">converterBase</span>(num, baseOrigem, baseDestino) {
+  <span class="text-purple-400">return</span> parseInt(num, baseOrigem).toString(baseDestino);
+}</pre>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-white mb-4 code-font">Demonstração: Conversor de Bases</h3>
+                    <div class="space-y-4" x-data="{
+                        fromBase: 10,
+                        toBase: 16,
+                        inputNumber: '',
+                        result: '',
+                        
+                        convertNumber() {
+                            if (!this.inputNumber) {
+                                this.result = '';
+                                return;
+                            }
+                            
+                            try {
+                                // Remove espaços e caracteres inválidos
+                                const cleanedInput = this.inputNumber.toString().trim().toUpperCase();
+                                
+                                // Verifica se o número é válido para a base de origem
+                                if (!this.isValidForBase(cleanedInput, this.fromBase)) {
+                                    this.result = 'Entrada inválida para a base selecionada';
+                                    return;
+                                }
+                                
+                                const decimalValue = parseInt(cleanedInput, this.fromBase);
+                                if (isNaN(decimalValue)) {
+                                    this.result = 'Erro na conversão';
+                                    return;
+                                }
+                                
+                                // Converte para a base de destino
+                                let converted;
+                                if (this.toBase === 10) {
+                                    converted = decimalValue.toString();
+                                } else {
+                                    converted = decimalValue.toString(this.toBase).toUpperCase();
+                                }
+                                
+                                this.result = converted;
+                            } catch (e) {
+                                this.result = 'Erro na conversão';
+                            }
+                        },
+                        
+                        isValidForBase(num, base) {
+                            const validChars = {
+                                2: /^[01]+$/,
+                                8: /^[0-7]+$/,
+                                10: /^-?\d+$/,
+                                16: /^[0-9A-F]+$/
+                            };
+                            
+                            // Remove prefixos (0x, 0b, 0o) se existirem
+                            const cleanedNum = num.replace(/^0[xbo]/i, '');
+                            
+                            return validChars[base].test(cleanedNum);
+                        }
+                    }">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-1 code-font">base_origem:</label>
+                                <select x-model="fromBase" @change="convertNumber" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 code-font">
+                                    <option value="2">Binário (2)</option>
+                                    <option value="8">Octal (8)</option>
+                                    <option value="10" selected>Decimal (10)</option>
+                                    <option value="16">Hexadecimal (16)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-400 mb-1 code-font">base_destino:</label>
+                                <select x-model="toBase" @change="convertNumber" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 code-font">
+                                    <option value="2">Binário (2)</option>
+                                    <option value="8">Octal (8)</option>
+                                    <option value="10">Decimal (10)</option>
+                                    <option value="16" selected>Hexadecimal (16)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="block text-sm text-gray-400 mb-1 code-font">numero:</label>
+                            <div class="flex gap-4">
+                                <input x-model="inputNumber" @input="convertNumber" class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 code-font" placeholder="Digite o número">
+                                <button @click="convertNumber" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md code-font glow-effect whitespace-nowrap">
+                                    <iconify-icon icon="solar:refresh-bold" class="mr-2"></iconify-icon>
+                                    converter_numero()
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-3 bg-gray-700 rounded-md">
+                            <label class="block text-sm text-gray-400 mb-1 code-font">resultado:</label>
+                            <div class="text-green-400 code-font" x-text="result || 'Digite um número e selecione as bases'"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="cta-bg py-16 border-t border-gray-700">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-white code-font mb-4">Comece Agora Mesmo!</h2>
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Projeto open-source desenvolvido para a comunidade de estudantes</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="contents.html" class="px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg shadow-xl transition duration-300 code-font glow-effect transform hover:scale-105">
+                    <div class="flex items-center justify-center">
+                        <iconify-icon icon="solar:book-2-bold" class="mr-3 text-xl"></iconify-icon>
+                        <div class="text-left">
+                            <div class="text-xs text-green-200">Explorar conteúdo</div>
+                            <div>ver_caderno_completo()</div>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="https://github.com/babisobrinho/cadernomatematica"
+                    class="px-8 py-4 border-2 border-gray-600 bg-gray-800 hover:border-green-500 text-gray-100 hover:text-white font-medium rounded-lg shadow-sm transition duration-300 code-font transform hover:scale-105">
+                    <div class="flex items-center justify-center">
+                        <i class="fab fa-github mr-3 text-xl"></i>
+                        <div class="text-left">
+                            <div class="text-xs text-gray-400 group-hover:text-green-200">Contribuir no GitHub</div>
+                            <div>ver_repositório()</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="p-1 bg-green-500 rounded-md flex items-center justify-center">
+                            <iconify-icon icon="solar:calculator-bold" class="text-gray-900 text-xl"></iconify-icon>
+                        </div>
+                        <span class="text-xl font-bold text-white code-font">Caderno<span class="text-green-400">Matemática</span></span>
+                    </div>
+                    <p class="text-sm">Recurso educacional aberto para a UFCD 5064 de Matemática do curso TETPSI.</p>
+                    <div class="mt-4 flex space-x-4">
+                        <a href="#" class="text-gray-500 hover:text-green-400 transition duration-200">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-green-400 transition duration-200">
+                            <iconify-icon icon="solar:document-bold" class="text-xl"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-medium mb-4 code-font">capítulos()</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-green-400 transition duration-200">Sistemas de Numeração</a></li>
+                        <li><a href="#" class="hover:text-green-400 transition duration-200">Teoria de Conjuntos</a></li>
+                        <li><a href="#" class="hover:text-green-400 transition duration-200">Lógica Booleana</a></li>
+                        <li><a href="#" class="hover:text-green-400 transition duration-200">Probabilidades</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-medium mb-4 code-font">ferramentas()</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-green-400 transition duration-200">Conversor de Bases</a></li>
+                        <li><a href="#" class="hover:text-green-400 transition duration-200">Diagramas de Venn</a></li>
+                        <li><a href="#" class="hover:text-green-400 transition duration-200">Simulador Lógico</a></li>
+                        <li><a href="#" class="hover:text-green-400 transition duration-200">Calculadora</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-medium mb-4 code-font">sobre()</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-center">
+                            <iconify-icon icon="solar:info-circle-bold" class="mr-2 text-green-400"></iconify-icon>
+                            <a href="#" class="hover:text-green-400 transition duration-200">Sobre o Projeto</a>
+                        </li>
+                        <li class="flex items-center">
+                            <iconify-icon icon="solar:document-bold" class="mr-2 text-green-400"></iconify-icon>
+                            <a href="#" class="hover:text-green-400 transition duration-200">Licença MIT</a>
+                        </li>
+                        <li class="flex items-center">
+                            <iconify-icon icon="solar:book-bold" class="mr-2 text-green-400"></iconify-icon>
+                            <a href="#" class="hover:text-green-400 transition duration-200">Referências</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-500 code-font">© 2024 CadernoMatemática. Licença MIT - Conteúdo livre</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-sm text-gray-500 hover:text-green-400 transition duration-200 code-font">acessibilidade</a>
+                    <a href="#" class="text-sm text-gray-500 hover:text-green-400 transition duration-200 code-font">termos</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('baseConverter', () => ({
+                fromBase: 10,
+                toBase: 16,
+                inputNumber: '',
+                result: '',
+                
+                convertNumber() {
+                    if (!this.inputNumber) {
+                        this.result = '';
+                        return;
+                    }
+                    
+                    try {
+                        const decimalValue = parseInt(this.inputNumber, this.fromBase);
+                        if (isNaN(decimalValue)) {
+                            this.result = 'Entrada inválida para a base selecionada';
+                            return;
+                        }
+                        this.result = decimalValue.toString(this.toBase).toUpperCase();
+                    } catch (e) {
+                        this.result = 'Erro na conversão';
+                    }
+                }
+            }));
+        });
+    </script>
+</body>
+</html>

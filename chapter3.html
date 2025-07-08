@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lógica - Caderno Virtual Matemática TPSI</title>
+    <link rel="icon" type="image/x-icon" href="favicon.svg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0a0e17 0%, #122a3a 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.3), 0 4px 6px -2px rgba(139, 92, 246, 0.1);
+        }
+        .code-block {
+            background-color: #1e293b;
+            border-left: 4px solid rgb(45 212 191 / var(--tw-text-opacity, 1));
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgb(45 212 191 / var(--tw-text-opacity, 1));
+        }
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        .sidebar-item:hover {
+            background-color: #1e293b;
+            border-left: 3px solid #8b5cf6;
+        }
+        .active-section {
+            background-color: #1e293b;
+            border-left: 3px solid #8b5cf6;
+            font-weight: 500;
+        }
+        .content-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px -3px rgb(45 212 191 / var(--tw-text-opacity, 1));
+        }
+        .math-symbol {
+            position: absolute;
+            color: rgba(139, 92, 246, 0.1);
+            font-size: 2rem;
+            animation: float 15s infinite linear;
+            pointer-events: none;
+            user-select: none;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            min-width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        th {
+            background-color: #1e293b;
+            font-weight: 600;
+        }
+        tr:hover td {
+            background-color: #1e404b;
+        }
+        .binary-example {
+            font-family: 'Fira Code', monospace;
+            background-color: #1e293b;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            color: rgb(139, 92, 246);
+        }
+        .chapter-nav {
+            scroll-margin-top: 120px;
+        }
+        .floating-search {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            transition: all 0.3s ease;
+            max-width: 300px;
+        }
+        
+        .search-box {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+        }
+        
+        .search-input-container {
+            position: relative;
+            flex-grow: 1;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 8px 12px 8px 32px;
+            color: white;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+        
+        .search-nav {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(30, 41, 59, 0.9);
+            border-top: 1px solid #334155;
+        }
+        
+        .match-count {
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-right: 10px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .nav-button {
+            background: #334155;
+            border: none;
+            border-radius: 4px;
+            color: #e2e8f0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-button:hover {
+            background: #475569;
+            color: #8b5cf6;
+        }
+        
+        .close-button {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            margin-left: auto;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .close-button:hover {
+            color: #ef4444;
+        }
+        
+        .search-highlight {
+            background-color: rgba(234, 179, 8, 0.3);
+            border-bottom: 2px solid #eab308;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        .search-highlight.current {
+            background-color: rgba(234, 179, 8, 0.6);
+            border-bottom: 2px solid #f59e0b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-900 text-gray-100">
+    <nav class="bg-gray-800 border-b border-gray-700 sticky top-0 z-20">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="p-1 bg-green-500 rounded-md flex items-center justify-center">
+                    <iconify-icon icon="solar:calculator-bold" class="text-gray-900 text-xl"></iconify-icon>
+                </div>
+                <span class="text-xl font-bold text-white code-font">Caderno<span class="text-green-400">Matemática</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-gray-400 hover:text-green-400 transition code-font">home()</a>
+                <a href="contents.html" class="text-green-400 font-medium code-font">conteudos()</a>
+                <span class="text-gray-400 code-font">exercicios()</span>
+                <span class="text-gray-400 code-font">ferramentas()</span>
+            </div>
+            <button class="md:hidden text-gray-400">
+                <iconify-icon icon="solar:hamburger-menu-linear" class="text-xl"></iconify-icon>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="math-symbol" style="top: 10%; left: 5%; animation-delay: 0s;">∧</div>
+    <div class="math-symbol" style="top: 20%; left: 80%; animation-delay: -2s;">∨</div>
+    <div class="math-symbol" style="top: 40%; left: 15%; animation-delay: -5s;">¬</div>
+    <div class="math-symbol" style="top: 60%; left: 70%; animation-delay: -7s;">⇒</div>
+    <div class="math-symbol" style="top: 30%; left: 50%; animation-delay: -10s;">⇔</div>
+    <div class="math-symbol" style="top: 80%; left: 30%; animation-delay: -12s;">⊕</div>
+    <div class="math-symbol" style="top: 15%; left: 40%; animation-delay: -8s;">⊤</div>
+    <div class="math-symbol" style="top: 50%; left: 90%; animation-delay: -3s;">⊥</div>
+
+    <div class="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8 mt-4">
+        <div class="lg:w-1/4 bg-gray-800 rounded-lg p-4 h-fit sticky top-24">
+            <div class="flex items-center mb-6">
+                <h2 class="text-xl font-bold code-font">{{ navegacao }}</h2>
+            </div>
+
+            <div class="space-y-2">
+                <div>
+                    <a href="contents.html" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">conteudos()</span>
+                    </a>
+                </div>
+
+                <div x-data="{ open: true }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">capitulos()</span>
+                        <iconify-icon :icon="open ? 'solar:alt-arrow-down-bold' : 'solar:alt-arrow-right-bold'" class="text-teal-400"></iconify-icon>
+                    </button>
+                    <div x-show="open" x-transition class="ml-4 mt-1 space-y-1">
+                        <a href="chapter1.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">SistemasNumeração</a>
+                        <a href="chapter2.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">TeoriaConjuntos</a>
+                        <a href="chapter3.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm font-bold text-teal-400">Lógica</a>
+                        <a href="chapter4.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">ÁlgebraBoole</a>
+                        <a href="chapter5.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Matrizes</a>
+                        <a href="chapter6.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Estatística</a>
+                    </div>
+                </div>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">trabalhos()</span>
+                        <iconify-icon :icon="open ? 'solar:alt-arrow-down-bold' : 'solar:alt-arrow-right-bold'" class="text-teal-400"></iconify-icon>
+                    </button>
+                    <div x-show="open" x-transition class="ml-4 mt-1 space-y-1">
+                        <a href="work1.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">OperadoresLógicos</a>
+                        <a href="work2.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">BactériasTriCromossomáticas</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-700">
+                <div class="flex items-center mb-4">
+                    <iconify-icon icon="solar:map-arrow-right-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                    <h3 class="text-lg font-bold code-font">Lógica</h3>
+                </div>
+                
+                <div class="space-y-2">
+                    <a href="#introducao" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Introdução</a>
+                    <a href="#proposicoes" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Proposições</a>
+                    <a href="#operadores" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Operadores</a>
+                    <a href="#tabelas-verdade" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">TabelasVerdade</a>
+                    <a href="#aplicacoes" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Aplicações</a>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-700">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-400">Progresso</span>
+                    <span class="text-sm font-medium text-teal-400" id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2 mt-2">
+                    <div class="bg-teal-500 h-2 rounded-full" id="chapterProgress" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:w-3/4">
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold code-font">Lógica()</h1>
+                    </div>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Ctrl + F" readonly
+                            class="bg-gray-700 border border-gray-600 rounded-md px-4 py-2 pl-10 focus:outline-none focus:ring-1 focus:ring-teal-500 code-font text-sm cursor-pointer">
+                        <iconify-icon icon="solar:magnifer-bold" class="text-gray-500 absolute left-3 top-2.5"></iconify-icon>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="text-xs px-3 py-1 bg-teal-900/50 text-teal-400 rounded-full code-font">#Proposições</span>
+                    <span class="text-xs px-3 py-1 bg-teal-900/50 text-teal-400 rounded-full code-font">#Operadores</span>
+                    <span class="text-xs px-3 py-1 bg-teal-900/50 text-teal-400 rounded-full code-font">#TabelasVerdade</span>
+                    <span class="text-xs px-3 py-1 bg-teal-900/50 text-teal-400 rounded-full code-font">#LógicaBooleana</span>
+                </div>
+            </div>
+
+            <section id="introducao" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">introducao()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">A lógica matemática é o estudo sistemático da forma dos argumentos, a estrutura das afirmações e dos conceitos de prova e inferência. É fundamental para matemática, ciência da computação e filosofia.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-teal-400 mb-2 code-font">Historia()</h3>
+                            <p class="text-gray-300 text-sm">A lógica formal remonta a Aristóteles (384-322 a.C.), mas a lógica matemática moderna desenvolveu-se nos séculos XIX e XX com contribuições de:</p>
+                            <ul class="mt-2 space-y-1 text-sm text-gray-300">
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 text-xs"></iconify-icon>
+                                    <span>George Boole (álgebra booleana)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Gottlob Frege (lógica de predicados)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Bertrand Russell (Principia Mathematica)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-teal-400 mb-2 code-font">Aplicacoes()</h3>
+                            <p class="text-gray-300 text-sm">A lógica tem aplicações em diversas áreas:</p>
+                            <ul class="mt-2 space-y-1 text-sm text-gray-300">
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Circuitos digitais e computadores</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Programação e inteligência artificial</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Demonstração de teoremas matemáticos</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Linguística e filosofia</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="proposicoes" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">proposicoes()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Uma proposição é uma afirmação que pode ser classificada como verdadeira (V) ou falsa (F), mas não ambas.</p>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-2 code-font">Caracteristicas()</h3>
+                        <ul class="text-sm text-gray-300 space-y-2">
+                            <li class="flex items-start">
+                                <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5"></iconify-icon>
+                                <span><strong>Declarativa:</strong> Afirma ou nega algo (não pode ser interrogativa, exclamativa, etc.)</span>
+                            </li>
+                            <li class="flex items-start">
+                                <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5"></iconify-icon>
+                                <span><strong>Valor lógico definido:</strong> Verdadeira (V) ou falsa (F), mesmo que não saibamos qual</span>
+                            </li>
+                            <li class="flex items-start">
+                                <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5"></iconify-icon>
+                                <span><strong>Não ambígua:</strong> Deve ter um significado claro e preciso</span>
+                            </li>
+                        </ul>
+                        
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="code-block rounded-md p-4">
+                                <pre class="text-gray-300 text-sm code-font">
+// Exemplos de proposições:
+p: "2 + 2 = 4" (V)
+q: "Lisboa é a capital de Portugal" (V)
+r: "O sol gira em torno da terra" (F)</pre>
+                            </div>
+                            <div class="code-block rounded-md p-4">
+                                <pre class="text-gray-300 text-sm code-font">
+// Não são proposições:
+"Que horas são?" (interrogativa)
+"Estude lógica!" (imperativa)
+"x + 3 = 5" (valor depende de x)</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-2 code-font">Tipos()</h3>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left py-2 px-4 text-teal-400 code-font">Tipo</th>
+                                        <th class="text-left py-2 px-4 text-teal-400 code-font">Descrição</th>
+                                        <th class="text-left py-2 px-4 text-teal-400 code-font">Exemplo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">Simples/Atômica</td>
+                                        <td class="py-2 px-4">Não contém outras proposições</td>
+                                        <td class="py-2 px-4">"Chove hoje"</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Composta/Molecular</td>
+                                        <td class="py-2 px-4">Formada por outras proposições conectadas</td>
+                                        <td class="py-2 px-4">"Chove e faz frio"</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Tautologia</td>
+                                        <td class="py-2 px-4">Sempre verdadeira</td>
+                                        <td class="py-2 px-4">"p ∨ ¬p"</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Contradição</td>
+                                        <td class="py-2 px-4">Sempre falsa</td>
+                                        <td class="py-2 px-4">"p ∧ ¬p"</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Contingência</td>
+                                        <td class="py-2 px-4">Pode ser V ou F</td>
+                                        <td class="py-2 px-4">"p ∧ q"</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="operadores" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">operadores()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Operadores lógicos são símbolos que modificam ou combinam proposições para formar novas proposições.</p>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-2 code-font">PrincipaisOperadores()</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center mb-2">
+                                    <iconify-icon icon="solar:close-circle-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                                    <h4 class="font-medium text-teal-400 code-font">Negação (¬, ~)</h4>
+                                </div>
+                                <p class="text-gray-300 text-sm">Inverte o valor lógico</p>
+                                <p class="text-gray-400 text-xs mt-1">¬p (não p)</p>
+                            </div>
+                            
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center mb-2">
+                                    <iconify-icon icon="solar:and-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                                    <h4 class="font-medium text-teal-400 code-font">Conjunção (∧)</h4>
+                                </div>
+                                <p class="text-gray-300 text-sm">"E" lógico</p>
+                                <p class="text-gray-400 text-xs mt-1">p ∧ q (p e q)</p>
+                            </div>
+                            
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center mb-2">
+                                    <iconify-icon icon="solar:or-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                                    <h4 class="font-medium text-teal-400 code-font">Disjunção (∨)</h4>
+                                </div>
+                                <p class="text-gray-300 text-sm">"Ou" inclusivo</p>
+                                <p class="text-gray-400 text-xs mt-1">p ∨ q (p ou q)</p>
+                            </div>
+                            
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center mb-2">
+                                    <iconify-icon icon="solar:alternative-arrow-right-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                                    <h4 class="font-medium text-teal-400 code-font">Condicional (→)</h4>
+                                </div>
+                                <p class="text-gray-300 text-sm">"Se...então"</p>
+                                <p class="text-gray-400 text-xs mt-1">p → q (se p então q)</p>
+                            </div>
+                            
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center mb-2">
+                                    <iconify-icon icon="solar:arrows-left-right-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                                    <h4 class="font-medium text-teal-400 code-font">Bicondicional (↔)</h4>
+                                </div>
+                                <p class="text-gray-300 text-sm">"Se e somente se"</p>
+                                <p class="text-gray-400 text-xs mt-1">p ↔ q (p sse q)</p>
+                            </div>
+                            
+                            <div class="bg-gray-700 rounded-lg p-4">
+                                <div class="flex items-center mb-2">
+                                    <iconify-icon icon="solar:x-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                                    <h4 class="font-medium text-teal-400 code-font">Ou exclusivo (⊕)</h4>
+                                </div>
+                                <p class="text-gray-300 text-sm">"Ou...ou"</p>
+                                <p class="text-gray-400 text-xs mt-1">p ⊕ q (ou p ou q)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-2 code-font">Prioridade()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Ordem de precedência dos operadores (do maior para o menor):</p>
+                        
+                        <ol class="list-decimal list-inside text-sm text-gray-300 space-y-1">
+                            <li>Negacião (¬)</li>
+                            <li>Conjunção (∧)</li>
+                            <li>Disjunção (∨)</li>
+                            <li>Condicional (→)</li>
+                            <li>Bicondicional (↔)</li>
+                        </ol>
+                        
+                        <div class="mt-4 code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+// Exemplo de precedência:
+¬p ∧ q ∨ r → s ↔ t
+equivale a:
+((¬p ∧ q) ∨ r) → (s ↔ t)
+
+// Use parênteses para evitar ambiguidades:
+(p ∧ q) ∨ (r ∧ s)</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tabelas-verdade" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">tabelasVerdade()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Tabelas de verdade são ferramentas que mostram todos os possíveis valores lógicos de uma proposição composta, dados os valores de suas proposições componentes.</p>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-2 code-font">Construcao()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Passos para construir uma tabela de verdade:</p>
+                        
+                        <ol class="list-decimal list-inside text-sm text-gray-300 space-y-1">
+                            <li>Determine o número de linhas: 2<sup>n</sup> (n = número de proposições simples)</li>
+                            <li>Liste todas as combinações possíveis de V/F para as proposições simples</li>
+                            <li>Calcule os valores das subfórmulas passo a passo</li>
+                            <li>Calcule o valor da fórmula principal</li>
+                        </ol>
+                        
+                        <div class="mt-4 code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+// Exemplo para p ∧ q:
+| p | q | p ∧ q |
+|---|---|-------|
+| V | V |   V   |
+| V | F |   F   |
+| F | V |   F   |
+| F | F |   F   |</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-2 code-font">ExemplosCompletos()</h3>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center py-2 px-4 text-teal-400 code-font">p</th>
+                                        <th class="text-center py-2 px-4 text-teal-400 code-font">q</th>
+                                        <th class="text-center py-2 px-4 text-teal-400 code-font">¬p</th>
+                                        <th class="text-center py-2 px-4 text-teal-400 code-font">p ∧ q</th>
+                                        <th class="text-center py-2 px-4 text-teal-400 code-font">p ∨ q</th>
+                                        <th class="text-center py-2 px-4 text-teal-400 code-font">p → q</th>
+                                        <th class="text-center py-2 px-4 text-teal-400 code-font">p ↔ q</th>
+                                        <th class="text-center py-2 px-4 text-teal-400 code-font">p ⊕ q</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">F</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">V</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">V</td>
+                                                                                <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">F</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">F</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">V</td>
+                                        <td class="py-2 px-4">F</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aplicacoes" class="chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">aplicacoes()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">A lógica proposicional tem diversas aplicações práticas em computação e matemática:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:microchip-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-teal-400 code-font">CircuitosLogicos()</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Portas lógicas implementam operadores booleanos</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>AND (∧), OR (∨), NOT (¬), NAND, NOR, XOR</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Base para construção de CPUs e memórias</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:code-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-teal-400 code-font">Programacao()</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Estruturas condicionais (if, else)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Operadores booleanos (&&, ||, !)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Verificação de pré/pós-condições</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:shield-warning-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-teal-400 code-font">Criptografia()</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Funções hash e algoritmos de criptografia</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Protocolos de autenticação</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Circuitos para geração de números aleatórios</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:atom-bold" class="text-teal-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-teal-400 code-font">Matematica()</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Demonstração de teoremas</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Teoria dos conjuntos</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-teal-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Álgebra abstrata</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="teoria-pratica" class="mt-12 mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">daTeoriaAPratica()</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="#" class="rounded-lg p-6 border border-gray-700/50">
+                        <div class="flex items-start mb-4">
+                            <iconify-icon icon="solar:clipboard-list-bold" class="text-gray-400 text-2xl mr-3 mt-0.5"></iconify-icon>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-400 code-font">exercicios()</h3>
+                                <p class="text-gray-300 text-sm mt-1">Pratique os conceitos aprendidos neste capítulo com exercícios cuidadosamente selecionados.</p>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="rounded-lg p-6 border border-gray-700">
+                        <div class="flex items-start mb-4">
+                            <iconify-icon icon="solar:ruler-pen-bold" class="text-gray-400 text-2xl mr-3 mt-0.5"></iconify-icon>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-400 code-font">ferramentas()</h3>
+                                <p class="text-gray-300 text-sm mt-1">Utilize ferramentas interativas para construir tabelas verdade e analisar proposições lógicas.</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+            
+            <div class="mt-8 flex justify-between items-center">
+                <a href="contents.html" class="text-teal-400 hover:text-teal-300 transition code-font flex items-center">
+                    <iconify-icon icon="solar:arrow-left-bold" class="mr-1"></iconify-icon>
+                    voltar_capitulo_anterior()
+                </a>
+                <a href="chapter4.html" class="bg-teal-600 hover:bg-teal-700 transition text-white px-4 py-2 rounded-md code-font flex items-center">
+                    proximo_capitulo()
+                    <iconify-icon icon="solar:arrow-right-bold" class="ml-1"></iconify-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800 mt-12">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-500 code-font">© 2025 Caderno de Matemática. Conteúdo livre.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="https://github.com/babisobrinho" class="text-sm text-gray-500 hover:text-teal-400 transition duration-200 code-font">babi sobrinho</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="floating-search">
+        <div class="search-box">
+            <div class="flex align-center justify-between gap-2 p-2 bg-gray-900 border-b-gray-100">
+                <div class="search-input-container">
+                    <iconify-icon icon="solar:magnifer-bold" class="search-icon"></iconify-icon>
+                    <input type="text" id="floatingSearchInput" class="search-input" placeholder="encontrar()" autocomplete="off">
+                </div>
+                <button id="closeFloatingSearch" class="close-button">
+                    <iconify-icon icon="solar:close-circle-bold"></iconify-icon>
+                </button>
+            </div>
+            <div class="search-nav">
+                <span id="floatingMatchCount" class="match-count">0/0</span>
+                <div class="nav-buttons">
+                    <button id="floatingPrevMatch" class="nav-button" title="Anterior (Shift+Enter)">
+                        <iconify-icon icon="solar:arrow-up-bold"></iconify-icon>
+                    </button>
+                    <button id="floatingNextMatch" class="nav-button" title="Próximo (Enter)">
+                        <iconify-icon icon="solar:arrow-down-bold"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const floatingSearch = document.querySelector('.floating-search');
+            
+            floatingSearch.style.opacity = '0';
+            floatingSearch.style.pointerEvents = 'none';
+            floatingSearch.style.transform = 'translateY(-20px)';
+
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                    e.preventDefault();
+                    toggleSearch();
+                }
+            });
+            
+            searchInput.addEventListener('focus', function() {
+                toggleSearch();
+                document.getElementById('floatingSearchInput').focus();
+            });
+            
+            function toggleSearch() {
+                if (floatingSearch.style.opacity === '1') {
+                    closeSearch();
+                } else {
+                    openSearch();
+                }
+            }
+            
+            function openSearch() {
+                floatingSearch.style.opacity = '1';
+                floatingSearch.style.pointerEvents = 'auto';
+                floatingSearch.style.transform = 'translateY(0)';
+                document.getElementById('floatingSearchInput').focus();
+            }
+            
+            function closeSearch() {
+                floatingSearch.style.opacity = '0';
+                floatingSearch.style.pointerEvents = 'none';
+                floatingSearch.style.transform = 'translateY(-20px)';
+                clearHighlights();
+                document.getElementById('floatingSearchInput').value = '';
+                document.getElementById('floatingMatchCount').textContent = '0/0';
+            }
+            
+            const floatingInput = document.getElementById('floatingSearchInput');
+            const prevBtn = document.getElementById('floatingPrevMatch');
+            const nextBtn = document.getElementById('floatingNextMatch');
+            const closeBtn = document.getElementById('closeFloatingSearch');
+            const countEl = document.getElementById('floatingMatchCount');
+            
+            let currentIndex = -1;
+            let matches = [];
+            
+            floatingInput.addEventListener('input', function() {
+                searchTerm = this.value.trim();
+                if (searchTerm.length >= 2) {
+                    performSearch();
+                } else {
+                    clearHighlights();
+                    countEl.textContent = '0/0';
+                }
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                navigate(-1);
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                navigate(1);
+            });
+            
+            closeBtn.addEventListener('click', closeSearch);
+            
+            floatingInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (e.shiftKey) {
+                        navigate(-1);
+                    } else {
+                        navigate(1);
+                    }
+                } else if (e.key === 'Escape') {
+                    closeSearch();
+                }
+            });
+            
+            function performSearch() {
+                clearHighlights();
+                matches = [];
+                currentIndex = -1;
+                
+                const content = document.querySelector('.lg\\:w-3\\/4');
+                const textNodes = getTextNodes(content);
+                const term = floatingInput.value.trim().toLowerCase();
+                
+                if (term.length < 2) return;
+                
+                textNodes.forEach(node => {
+                    const nodeVal = node.nodeValue.toLowerCase();
+                    let idx = -1;
+                    
+                    while ((idx = nodeVal.indexOf(term, idx + 1)) !== -1) {
+                        if (idx === -1) break;
+                        matches.push({
+                            node: node,
+                            index: idx,
+                            length: term.length
+                        });
+                    }
+                });
+                
+                if (matches.length > 0) {
+                    currentIndex = 0;
+                    highlightCurrentMatch();
+                }
+                
+                updateMatchCount();
+            }
+            
+            function getTextNodes(element) {
+                const walker = document.createTreeWalker(
+                    element,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+                
+                const textNodes = [];
+                let node;
+                
+                while (node = walker.nextNode()) {
+                    if (node.nodeValue.trim().length > 0) {
+                        textNodes.push(node);
+                    }
+                }
+                
+                return textNodes;
+            }
+            
+            function highlightCurrentMatch() {
+                if (currentIndex < 0 || currentIndex >= matches.length) return;
+                
+                const match = matches[currentIndex];
+                const range = document.createRange();
+                range.setStart(match.node, match.index);
+                range.setEnd(match.node, match.index + match.length);
+                
+                const span = document.createElement('span');
+                span.className = 'search-highlight current';
+                range.surroundContents(span);
+                
+                span.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+            
+            function clearHighlights() {
+                document.querySelectorAll('.search-highlight').forEach(hl => {
+                    const parent = hl.parentNode;
+                    parent.replaceChild(document.createTextNode(hl.textContent), hl);
+                    parent.normalize();
+                });
+            }
+            
+            function navigate(direction) {
+                if (matches.length === 0) return;
+                
+                currentIndex = (currentIndex + direction + matches.length) % matches.length;
+                highlightCurrentMatch();
+                updateMatchCount();
+            }
+            
+            function updateMatchCount() {
+                countEl.textContent = matches.length > 0 ? 
+                    `${currentIndex + 1}/${matches.length}` : '0/0';
+            }
+            
+            window.addEventListener('scroll', function() {
+                const chapterProgress = document.getElementById('chapterProgress');
+                const progressText = document.getElementById('progressText');
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPosition = window.scrollY;
+                
+                const scrollProgress = (scrollPosition / totalHeight) * 100;
+                const boundedProgress = Math.min(100, Math.max(0, scrollProgress));
+                chapterProgress.style.width = boundedProgress + '%';
+                progressText.textContent = Math.round(boundedProgress) + '%';
+                
+                const sections = document.querySelectorAll('.chapter-nav');
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                const navItems = document.querySelectorAll('.sidebar-item');
+                navItems.forEach(item => {
+                    item.classList.remove('active-section');
+                    if (item.getAttribute('href') === `#${current}`) {
+                        item.classList.add('active-section');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

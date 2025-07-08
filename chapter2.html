@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teoria de Conjuntos - Caderno Virtual Matemática TPSI</title>
+    <link rel="icon" type="image/x-icon" href="favicon.svg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0a0e17 0%, #122a3a 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.3), 0 4px 6px -2px rgba(16, 185, 129, 0.1);
+        }
+        .code-block {
+            background-color: #1e293b;
+            border-left: 4px solid rgb(16, 185, 129);
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+        }
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        .sidebar-item:hover {
+            background-color: #1e293b;
+            border-left: 3px solid #10b981;
+        }
+        .active-section {
+            background-color: #1e293b;
+            border-left: 3px solid #10b981;
+            font-weight: 500;
+        }
+        .content-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px -3px rgba(16, 185, 129, 0.2);
+        }
+        .math-symbol {
+            position: absolute;
+            color: rgba(16, 185, 129, 0.1);
+            font-size: 2rem;
+            animation: float 15s infinite linear;
+            pointer-events: none;
+            user-select: none;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            min-width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        th {
+            background-color: #1e293b;
+            font-weight: 600;
+        }
+        tr:hover td {
+            background-color: #1e404b;
+        }
+        .binary-example {
+            font-family: 'Fira Code', monospace;
+            background-color: #1e293b;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            color: rgb(16, 185, 129);
+        }
+        .chapter-nav {
+            scroll-margin-top: 120px;
+        }
+        .floating-search {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            transition: all 0.3s ease;
+            max-width: 300px;
+        }
+        
+        .search-box {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+        }
+        
+        .search-input-container {
+            position: relative;
+            flex-grow: 1;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 8px 12px 8px 32px;
+            color: white;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+        
+        .search-nav {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(30, 41, 59, 0.9);
+            border-top: 1px solid #334155;
+        }
+        
+        .match-count {
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-right: 10px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .nav-button {
+            background: #334155;
+            border: none;
+            border-radius: 4px;
+            color: #e2e8f0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-button:hover {
+            background: #475569;
+            color: #10b981;
+        }
+        
+        .close-button {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            margin-left: auto;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .close-button:hover {
+            color: #ef4444;
+        }
+        
+        .search-highlight {
+            background-color: rgba(234, 179, 8, 0.3);
+            border-bottom: 2px solid #eab308;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        .search-highlight.current {
+            background-color: rgba(234, 179, 8, 0.6);
+            border-bottom: 2px solid #f59e0b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-900 text-gray-100">
+    <nav class="bg-gray-800 border-b border-gray-700 sticky top-0 z-20">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="p-1 bg-green-500 rounded-md flex items-center justify-center">
+                    <iconify-icon icon="solar:calculator-bold" class="text-gray-900 text-xl"></iconify-icon>
+                </div>
+                <span class="text-xl font-bold text-white code-font">Caderno<span class="text-green-400">Matemática</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-gray-400 hover:text-green-400 transition code-font">home()</a>
+                <a href="contents.html" class="text-green-400 font-medium code-font">conteudos()</a>
+                <span class="text-gray-400 code-font">exercicios()</span>
+                <span class="text-gray-400 code-font">ferramentas()</span>
+            </div>
+            <button class="md:hidden text-gray-400">
+                <iconify-icon icon="solar:hamburger-menu-linear" class="text-xl"></iconify-icon>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="math-symbol" style="top: 10%; left: 5%; animation-delay: 0s;">∑</div>
+    <div class="math-symbol" style="top: 20%; left: 80%; animation-delay: -2s;">∫</div>
+    <div class="math-symbol" style="top: 40%; left: 15%; animation-delay: -5s;">π</div>
+    <div class="math-symbol" style="top: 60%; left: 70%; animation-delay: -7s;">∞</div>
+    <div class="math-symbol" style="top: 30%; left: 50%; animation-delay: -10s;">√</div>
+    <div class="math-symbol" style="top: 80%; left: 30%; animation-delay: -12s;">Δ</div>
+    <div class="math-symbol" style="top: 15%; left: 40%; animation-delay: -8s;">θ</div>
+    <div class="math-symbol" style="top: 50%; left: 90%; animation-delay: -3s;">≠</div>
+
+    <div class="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8 mt-4">
+        <div class="lg:w-1/4 bg-gray-800 rounded-lg p-4 h-fit sticky top-24">
+            <div class="flex items-center mb-6">
+                <h2 class="text-xl font-bold code-font">{{ navegacao }}</h2>
+            </div>
+            <div class="space-y-2">
+                <div>
+                    <a href="contents.html" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">conteudos()</span>
+                    </a>
+                </div>
+
+                <div x-data="{ open: true }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">capitulos()</span>
+                        <iconify-icon :icon="open ? 'solar:alt-arrow-down-bold' : 'solar:alt-arrow-right-bold'" class="text-green-400"></iconify-icon>
+                    </button>
+                    <div x-show="open" x-transition class="ml-4 mt-1 space-y-1">
+                        <a href="chapter1.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">SistemasNumeração</a>
+                        <a href="chapter2.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm font-bold text-green-400">TeoriaConjuntos</a>
+                        <a href="chapter3.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Lógica</a>
+                        <a href="chapter4.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">ÁlgebraBoole</a>
+                        <a href="chapter5.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Matrizes</a>
+                        <a href="chapter6.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Estatística</a>
+                    </div>
+                </div>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">trabalhos()</span>
+                        <iconify-icon :icon="open ? 'solar:alt-arrow-down-bold' : 'solar:alt-arrow-right-bold'" class="text-green-400"></iconify-icon>
+                    </button>
+                    <div x-show="open" x-transition class="ml-4 mt-1 space-y-1">
+                        <a href="work1.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">OperadoresLógicos</a>
+                        <a href="work2.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">BactériasTriCromossomáticas</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-700">
+                <div class="flex items-center mb-4">
+                    <iconify-icon icon="solar:map-arrow-right-bold" class="text-green-400 text-xl mr-2"></iconify-icon>
+                    <h3 class="text-lg font-bold code-font">TeoriaConjuntos</h3>
+                </div>
+                
+                <div class="space-y-2">
+                    <a href="#introducao" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Introdução</a>
+                    <a href="#definicoes" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Definições</a>
+                    <a href="#operacoes" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Operações</a>
+                    <a href="#propriedades" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Propriedades</a>
+                    <a href="#aplicacoes" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Aplicações</a>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-700">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-400">Progresso</span>
+                    <span class="text-sm font-medium text-green-400" id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2 mt-2">
+                    <div class="bg-green-500 h-2 rounded-full" id="chapterProgress" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:w-3/4">
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold code-font">TeoriaConjuntos()</h1>
+                    </div>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Ctrl + F" readonly
+                            class="bg-gray-700 border border-gray-600 rounded-md px-4 py-2 pl-10 focus:outline-none focus:ring-1 focus:ring-emerald-500 code-font text-sm cursor-pointer">
+                        <iconify-icon icon="solar:magnifer-bold" class="text-gray-500 absolute left-3 top-2.5"></iconify-icon>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="text-xs px-3 py-1 bg-emerald-900/50 text-emerald-400 rounded-full code-font">#Conjuntos</span>
+                    <span class="text-xs px-3 py-1 bg-emerald-900/50 text-emerald-400 rounded-full code-font">#Operações</span>
+                    <span class="text-xs px-3 py-1 bg-emerald-900/50 text-emerald-400 rounded-full code-font">#Propriedades</span>
+                    <span class="text-xs px-3 py-1 bg-emerald-900/50 text-emerald-400 rounded-full code-font">#Cardinalidade</span>
+                </div>
+            </div>
+
+            <section id="introducao" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">introducao()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">A teoria de conjuntos é um ramo fundamental da matemática que estuda coleções de objetos chamados conjuntos. É a base para várias áreas da matemática e tem aplicações em ciência da computação, lógica e outras disciplinas.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-emerald-400 mb-2 code-font">ConceitoBasico()</h3>
+                            <p class="text-gray-300 text-sm">Um conjunto é uma coleção bem definida de objetos distintos, chamados elementos.</p>
+                            <ul class="mt-2 space-y-1 text-sm text-gray-300">
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Os conjuntos são geralmente denotados por letras maiúsculas (A, B, C...)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Os elementos são listados entre chaves { }</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Exemplo: A = {1, 2, 3, 4}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-emerald-400 mb-2 code-font">FormasDefinicao()</h3>
+                            <p class="text-gray-300 text-sm">Os conjuntos podem ser definidos de várias maneiras:</p>
+                            <ul class="mt-2 space-y-1 text-sm text-gray-300">
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 text-xs"></iconify-icon>
+                                    <span><strong>Extensão:</strong> Listando todos os elementos (A = {1, 2, 3})</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 text-xs"></iconify-icon>
+                                    <span><strong>Compreensão:</strong> Por uma propriedade (B = {x | x é par})</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 text-xs"></iconify-icon>
+                                    <span><strong>Diagramas de Venn:</strong> Representação gráfica</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-emerald-400 mb-2 code-font">ConjuntosEspeciais()</h3>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left py-2 px-4 text-emerald-400 code-font">Conjunto</th>
+                                        <th class="text-left py-2 px-4 text-emerald-400 code-font">Notação</th>
+                                        <th class="text-left py-2 px-4 text-emerald-400 code-font">Descrição</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">Vazio</td>
+                                        <td class="py-2 px-4">∅ ou {}</td>
+                                        <td class="py-2 px-4">Não contém elementos</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Unitário</td>
+                                        <td class="py-2 px-4">{a}</td>
+                                        <td class="py-2 px-4">Contém exatamente um elemento</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Universal</td>
+                                        <td class="py-2 px-4">U</td>
+                                        <td class="py-2 px-4">Contém todos os elementos em consideração</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Naturais</td>
+                                        <td class="py-2 px-4">ℕ</td>
+                                        <td class="py-2 px-4">{1, 2, 3, ...}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Inteiros</td>
+                                        <td class="py-2 px-4">ℤ</td>
+                                        <td class="py-2 px-4">{..., -2, -1, 0, 1, 2, ...}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="definicoes" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">definicoes()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Conceitos fundamentais da teoria de conjuntos que estabelecem as bases para operações e propriedades.</p>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-emerald-400 mb-2 code-font">Pertenca()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Relação entre um elemento e um conjunto:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Pertence:</h4>
+                                <p class="text-sm text-gray-300">x ∈ A (x é elemento de A)</p>
+                                <p class="text-gray-400 text-xs mt-1">Exemplo: 2 ∈ {1, 2, 3}</p>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Não pertence:</h4>
+                                <p class="text-sm text-gray-300">x ∉ A (x não é elemento de A)</p>
+                                <p class="text-gray-400 text-xs mt-1">Exemplo: 4 ∉ {1, 2, 3}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-emerald-400 mb-2 code-font">Subconjuntos()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Relação entre dois conjuntos:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Subconjunto:</h4>
+                                <p class="text-sm text-gray-300">A ⊆ B (todo elemento de A está em B)</p>
+                                <p class="text-gray-400 text-xs mt-1">Exemplo: {1, 2} ⊆ {1, 2, 3}</p>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Subconjunto próprio:</h4>
+                                <p class="text-sm text-gray-300">A ⊂ B (A ⊆ B e A ≠ B)</p>
+                                <p class="text-gray-400 text-xs mt-1">Exemplo: {1, 2} ⊂ {1, 2, 3}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-emerald-400 mb-2 code-font">Igualdade()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Dois conjuntos são iguais se contêm exatamente os mesmos elementos:</p>
+                        
+                        <div class="code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+A = B ⇔ (A ⊆ B ∧ B ⊆ A)
+
+Exemplo:
+{1, 2, 3} = {3, 2, 1} = {1, 1, 2, 3} (a ordem e repetições não importam)</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="operacoes" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">operacoes()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Operações fundamentais que podem ser realizadas entre conjuntos para produzir novos conjuntos.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:intersection-bold" class="text-emerald-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-emerald-400 code-font">Interseção()</h3>
+                            </div>
+                            <p class="text-gray-300 text-sm">A ∩ B = {x | x ∈ A ∧ x ∈ B}</p>
+                            <p class="text-gray-400 text-xs mt-2">Elementos comuns a A e B</p>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:union-bold" class="text-emerald-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-emerald-400 code-font">União()</h3>
+                            </div>
+                            <p class="text-gray-300 text-sm">A ∪ B = {x | x ∈ A ∨ x ∈ B}</p>
+                            <p class="text-gray-400 text-xs mt-2">Elementos de A ou de B</p>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:minus-bold" class="text-emerald-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-emerald-400 code-font">Diferença()</h3>
+                            </div>
+                            <p class="text-gray-300 text-sm">A \ B = {x | x ∈ A ∧ x ∉ B}</p>
+                            <p class="text-gray-400 text-xs mt-2">Elementos de A que não estão em B</p>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:square-academic-cap-bold" class="text-emerald-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-emerald-400 code-font">Complementar()</h3>
+                            </div>
+                            <p class="text-gray-300 text-sm">A<sup>c</sup> = U \ A</p>
+                            <p class="text-gray-400 text-xs mt-2">Elementos não pertencentes a A</p>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:atom-bold" class="text-emerald-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-emerald-400 code-font">DiferençaSimétrica()</h3>
+                            </div>
+                            <p class="text-gray-300 text-sm">A Δ B = (A \ B) ∪ (B \ A)</p>
+                            <p class="text-gray-400 text-xs mt-2">Elementos em A ou B, mas não em ambos</p>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:layers-bold" class="text-emerald-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-emerald-400 code-font">ProdutoCartesiano()</h3>
+                            </div>
+                            <p class="text-gray-300 text-sm">A × B = {(a,b) | a ∈ A ∧ b ∈ B}</p>
+                            <p class="text-gray-400 text-xs mt-2">Pares ordenados de elementos</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-emerald-400 mb-2 code-font">Exemplos()</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="code-block rounded-md p-4">
+                                <pre class="text-gray-300 text-sm code-font">
+// Dados:
+A = {1, 2, 3, 4}
+B = {3, 4, 5, 6}
+U = {1, 2, 3, 4, 5, 6, 7, 8}
+
+// Operações:
+A ∩ B = {3, 4}
+A ∪ B = {1, 2, 3, 4, 5, 6}
+A \ B = {1, 2}
+B \ A = {5, 6}
+A Δ B = {1, 2, 5, 6}
+A<sup>c</sup> = {5, 6, 7, 8}</pre>
+                            </div>
+                            <div class="flex items-center justify-center">
+                                <div class="text-center">
+                                    <p class="text-gray-300 text-sm mb-2">Diagrama de Venn:</p>
+                                    <div class="relative w-48 h-48 mx-auto">
+                                        <div class="absolute w-32 h-32 rounded-full border-2 border-emerald-400 opacity-70 left-0 top-8"></div>
+                                        <div class="absolute w-32 h-32 rounded-full border-2 border-blue-400 opacity-70 right-0 top-8"></div>
+                                        <div class="absolute text-xs left-4 top-4 text-emerald-400">A</div>
+                                        <div class="absolute text-xs right-4 top-4 text-blue-400">B</div>
+                                        <div class="absolute text-xs left-16 top-16">A ∩ B</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="propriedades" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">propriedades()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Principais propriedades e leis que governam as operações com conjuntos.</p>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-emerald-400 mb-2 code-font">LeisDeMorgan()</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="code-block rounded-md p-4">
+                                <pre class="text-gray-300 text-sm code-font">
+(A ∪ B)<sup>c</sup> = A<sup>c</sup> ∩ B<sup>c</sup>
+
+A negação de "A ou B" é 
+"não A e não B"</pre>
+                            </div>
+                            <div class="code-block rounded-md p-4">
+                                <pre class="text-gray-300 text-sm code-font">
+(A ∩ B)<sup>c</sup> = A<sup>c</sup> ∪ B<sup>c</sup>
+
+A negação de "A e B" é 
+"não A ou não B"</pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-emerald-400 mb-2 code-font">OutrasPropriedades()</h3>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left py-2 px-4 text-emerald-400 code-font">Propriedade</th>
+                                        <th class="text-left py-2 px-4 text-emerald-400 code-font">União</th>
+                                        <th class="text-left py-2 px-4 text-emerald-400 code-font">Interseção</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">Comutativa</td>
+                                        <td class="py-2 px-4">A ∪ B = B ∪ A</td>
+                                        <td class="py-2 px-4">A ∩ B = B ∩ A</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Associativa</td>
+                                        <td class="py-2 px-4">(A ∪ B) ∪ C = A ∪ (B ∪ C)</td>
+                                        <td class="py-2 px-4">(A ∩ B) ∩ C = A ∩ (B ∩ C)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Distributiva</td>
+                                        <td class="py-2 px-4">A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C)</td>
+                                        <td class="py-2 px-4">A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Idempotência</td>
+                                        <td class="py-2 px-4">A ∪ A = A</td>
+                                        <td class="py-2 px-4">A ∩ A = A</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Elemento neutro</td>
+                                        <td class="py-2 px-4">A ∪ ∅ = A</td>
+                                        <td class="py-2 px-4">A ∩ U = A</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Elemento absorvente</td>
+                                        <td class="py-2 px-4">A ∪ U = U</td>
+                                        <td class="py-2 px-4">A ∩ ∅ = ∅</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aplicacoes" class="chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">aplicacoes()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">A teoria de conjuntos tem aplicações em diversas áreas da matemática e ciência da computação.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:database-bold" class="text-emerald-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-emerald-400 code-font">BaseDeDados()</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Operações de conjuntos correspondem a operações SQL (UNION, INTERSECT, EXCEPT)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Álgebra relacional é baseada na teoria de conjuntos</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:code-bold" class="text-emerald-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-emerald-400 code-font">Programacao()</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Estruturas de dados como conjuntos (Set) em várias linguagens</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Operações booleanas em condições lógicas</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:atom-bold" class="text-emerald-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-emerald-400 code-font">Matematica()</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Base para definições em probabilidade, relações, funções</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Teoria dos números, álgebra, topologia usam conceitos de conjuntos</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:hashtag-bold" class="text-emerald-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-emerald-400 code-font">Logica()</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Correspondência entre operações lógicas e de conjuntos</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-emerald-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Demonstrações matemáticas usando teoria de conjuntos</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="teoria-pratica" class="mt-12 mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">daTeoriaAPratica()</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="#" class="rounded-lg p-6 border border-gray-700/50">
+                        <div class="flex items-start mb-4">
+                            <iconify-icon icon="solar:clipboard-list-bold" class="text-gray-400 text-2xl mr-3 mt-0.5"></iconify-icon>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-400 code-font">exercícios()</h3>
+                                <p class="text-gray-300 text-sm mt-1">Pratique os conceitos aprendidos neste capítulo com exercícios cuidadosamente selecionados.</p>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="rounded-lg p-6 border border-gray-700">
+                        <div class="flex items-start mb-4">
+                            <iconify-icon icon="solar:ruler-pen-bold" class="text-gray-400 text-2xl mr-3 mt-0.5"></iconify-icon>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-400 code-font">ferramentas()</h3>
+                                <p class="text-gray-300 text-sm mt-1">Utilize ferramentas interativas para visualizar operações entre conjuntos e praticar os conceitos.</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+            
+            <div class="mt-8 flex justify-between items-center">
+                <a href="contents.html" class="text-green-400 hover:text-green-300 transition code-font flex items-center">
+                    <iconify-icon icon="solar:arrow-left-bold" class="mr-1"></iconify-icon>
+                    voltar_conteudos()
+                </a>
+                <a href="chapter3.html" class="bg-green-600 hover:bg-green-700 transition text-white px-4 py-2 rounded-md code-font flex items-center">
+                    proximo_capitulo()
+                    <iconify-icon icon="solar:arrow-right-bold" class="ml-1"></iconify-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800 mt-12">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-500 code-font">© 2025 Caderno de Matemática. Conteúdo livre.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="https://github.com/babisobrinho" class="text-sm text-gray-500 hover:text-green-400 transition duration-200 code-font">babi sobrinho</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="floating-search">
+        <div class="search-box">
+            <div class="flex align-center justify-between gap-2 p-2 bg-gray-900 border-b-gray-100">
+                <div class="search-input-container">
+                    <iconify-icon icon="solar:magnifer-bold" class="search-icon"></iconify-icon>
+                    <input type="text" id="floatingSearchInput" class="search-input" placeholder="encontrar()" autocomplete="off">
+                </div>
+                <button id="closeFloatingSearch" class="close-button">
+                    <iconify-icon icon="solar:close-circle-bold"></iconify-icon>
+                </button>
+            </div>
+            <div class="search-nav">
+                <span id="floatingMatchCount" class="match-count">0/0</span>
+                <div class="nav-buttons">
+                    <button id="floatingPrevMatch" class="nav-button" title="Anterior (Shift+Enter)">
+                        <iconify-icon icon="solar:arrow-up-bold"></iconify-icon>
+                    </button>
+                    <button id="floatingNextMatch" class="nav-button" title="Próximo (Enter)">
+                        <iconify-icon icon="solar:arrow-down-bold"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const floatingSearch = document.querySelector('.floating-search');
+            
+            floatingSearch.style.opacity = '0';
+            floatingSearch.style.pointerEvents = 'none';
+            floatingSearch.style.transform = 'translateY(-20px)';
+            
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                    e.preventDefault();
+                    toggleSearch();
+                }
+            });
+
+            searchInput.addEventListener('focus', function() {
+                toggleSearch();
+                document.getElementById('floatingSearchInput').focus();
+            });
+            
+            function toggleSearch() {
+                if (floatingSearch.style.opacity === '1') {
+                    closeSearch();
+                } else {
+                    openSearch();
+                }
+            }
+            
+            function openSearch() {
+                floatingSearch.style.opacity = '1';
+                floatingSearch.style.pointerEvents = 'auto';
+                floatingSearch.style.transform = 'translateY(0)';
+                document.getElementById('floatingSearchInput').focus();
+            }
+            
+            function closeSearch() {
+                floatingSearch.style.opacity = '0';
+                floatingSearch.style.pointerEvents = 'none';
+                floatingSearch.style.transform = 'translateY(-20px)';
+                clearHighlights();
+                document.getElementById('floatingSearchInput').value = '';
+                document.getElementById('floatingMatchCount').textContent = '0/0';
+            }
+            
+            const floatingInput = document.getElementById('floatingSearchInput');
+            const prevBtn = document.getElementById('floatingPrevMatch');
+            const nextBtn = document.getElementById('floatingNextMatch');
+            const closeBtn = document.getElementById('closeFloatingSearch');
+            const countEl = document.getElementById('floatingMatchCount');
+            
+            let currentIndex = -1;
+            let matches = [];
+            
+            floatingInput.addEventListener('input', function() {
+                searchTerm = this.value.trim();
+                if (searchTerm.length >= 2) {
+                    performSearch();
+                } else {
+                    clearHighlights();
+                    countEl.textContent = '0/0';
+                }
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                navigate(-1);
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                navigate(1);
+            });
+            
+            closeBtn.addEventListener('click', closeSearch);
+            
+            floatingInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (e.shiftKey) {
+                        navigate(-1);
+                    } else {
+                        navigate(1);
+                    }
+                } else if (e.key === 'Escape') {
+                    closeSearch();
+                }
+            });
+            
+            function performSearch() {
+                clearHighlights();
+                matches = [];
+                currentIndex = -1;
+                
+                const content = document.querySelector('.lg\\:w-3\\/4');
+                const textNodes = getTextNodes(content);
+                const term = floatingInput.value.trim().toLowerCase();
+                
+                if (term.length < 2) return;
+                
+                textNodes.forEach(node => {
+                    const nodeVal = node.nodeValue.toLowerCase();
+                    let idx = -1;
+                    
+                    while ((idx = nodeVal.indexOf(term, idx + 1)) !== -1) {
+                        if (idx === -1) break;
+                        matches.push({
+                            node: node,
+                            index: idx,
+                            length: term.length
+                        });
+                    }
+                });
+                
+                if (matches.length > 0) {
+                    currentIndex = 0;
+                    highlightCurrentMatch();
+                }
+                
+                updateMatchCount();
+            }
+            
+            function getTextNodes(element) {
+                const walker = document.createTreeWalker(
+                    element,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+                
+                const textNodes = [];
+                let node;
+                
+                while (node = walker.nextNode()) {
+                    if (node.nodeValue.trim().length > 0) {
+                        textNodes.push(node);
+                    }
+                }
+                
+                return textNodes;
+            }
+            
+            function highlightCurrentMatch() {
+                if (currentIndex < 0 || currentIndex >= matches.length) return;
+                
+                const match = matches[currentIndex];
+                const range = document.createRange();
+                range.setStart(match.node, match.index);
+                range.setEnd(match.node, match.index + match.length);
+                
+                const span = document.createElement('span');
+                span.className = 'search-highlight current';
+                range.surroundContents(span);
+                
+                span.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+            
+            function clearHighlights() {
+                document.querySelectorAll('.search-highlight').forEach(hl => {
+                    const parent = hl.parentNode;
+                    parent.replaceChild(document.createTextNode(hl.textContent), hl);
+                    parent.normalize();
+                });
+            }
+            
+            function navigate(direction) {
+                if (matches.length === 0) return;
+                
+                currentIndex = (currentIndex + direction + matches.length) % matches.length;
+                highlightCurrentMatch();
+                updateMatchCount();
+            }
+            
+            function updateMatchCount() {
+                countEl.textContent = matches.length > 0 ? 
+                    `${currentIndex + 1}/${matches.length}` : '0/0';
+            }
+            
+            window.addEventListener('scroll', function() {
+                const chapterProgress = document.getElementById('chapterProgress');
+                const progressText = document.getElementById('progressText');
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPosition = window.scrollY;
+                
+                const scrollProgress = (scrollPosition / totalHeight) * 100;
+                const boundedProgress = Math.min(100, Math.max(0, scrollProgress));
+                chapterProgress.style.width = boundedProgress + '%';
+                progressText.textContent = Math.round(boundedProgress) + '%';
+                
+                const sections = document.querySelectorAll('.chapter-nav');
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                const navItems = document.querySelectorAll('.sidebar-item');
+                navItems.forEach(item => {
+                    item.classList.remove('active-section');
+                    if (item.getAttribute('href') === `#${current}`) {
+                        item.classList.add('active-section');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

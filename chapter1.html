@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistemas de Numeração - Caderno Virtual Matemática TPSI</title>
+    <link rel="icon" type="image/x-icon" href="favicon.svg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0a0e17 0%, #122a3a 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.3), 0 4px 6px -2px rgba(34, 197, 94, 0.1);
+        }
+        .code-block {
+            background-color: #1e293b;
+            border-left: 4px solid rgb(163 230 53 / var(--tw-text-opacity, 1));
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+        }
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        .sidebar-item:hover {
+            background-color: #1e293b;
+            border-left: 3px solid #22c55e;
+        }
+        .active-section {
+            background-color: #1e293b;
+            border-left: 3px solid #22c55e;
+            font-weight: 500;
+        }
+        .content-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px -3px rgba(34, 197, 94, 0.2);
+        }
+        .math-symbol {
+            position: absolute;
+            color: rgba(34, 197, 94, 0.1);
+            font-size: 2rem;
+            animation: float 15s infinite linear;
+            pointer-events: none;
+            user-select: none;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            min-width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        th {
+            background-color: #1e293b;
+            font-weight: 600;
+        }
+        tr:hover td {
+            background-color: #1e404b;
+        }
+        .binary-example {
+            font-family: 'Fira Code', monospace;
+            background-color: #1e293b;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            color: rgb(163 230 53 / var(--tw-text-opacity, 1));
+        }
+        .chapter-nav {
+            scroll-margin-top: 120px;
+        }
+.floating-search {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 100;
+        transition: all 0.3s ease;
+        max-width: 300px;
+    }
+    
+    .search-box {
+        background: rgba(30, 41, 59, 0.95);
+        border: 1px solid #334155;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
+        overflow: hidden;
+    }
+    
+    .search-input-container {
+        position: relative;
+        flex-grow: 1;
+    }
+    
+    .search-input {
+        width: 100%;
+        background: #1e293b;
+        border: 1px solid #334155;
+        border-radius: 6px;
+        padding: 8px 12px 8px 32px;
+        color: white;
+        font-family: 'Fira Code', monospace;
+        font-size: 14px;
+    }
+    
+    .search-input:focus {
+        outline: none;
+        border-color: #22c55e;
+        box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #64748b;
+    }
+    
+    .search-nav {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        background: rgba(30, 41, 59, 0.9);
+        border-top: 1px solid #334155;
+    }
+    
+    .match-count {
+        font-family: 'Fira Code', monospace;
+        font-size: 12px;
+        color: #94a3b8;
+        margin-right: 10px;
+    }
+    
+    .nav-buttons {
+        display: flex;
+        gap: 5px;
+    }
+    
+    .nav-button {
+        background: #334155;
+        border: none;
+        border-radius: 4px;
+        color: #e2e8f0;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .nav-button:hover {
+        background: #475569;
+        color: #22c55e;
+    }
+    
+    .close-button {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        margin-left: auto;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    
+    .close-button:hover {
+        color: #ef4444;
+    }
+    
+    .search-highlight {
+        background-color: rgba(234, 179, 8, 0.3);
+        border-bottom: 2px solid #eab308;
+        padding: 0 2px;
+        border-radius: 2px;
+    }
+    
+    .search-highlight.current {
+        background-color: rgba(234, 179, 8, 0.6);
+        border-bottom: 2px solid #f59e0b;
+        font-weight: bold;
+    }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-900 text-gray-100">
+    <nav class="bg-gray-800 border-b border-gray-700 sticky top-0 z-20">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="p-1 bg-green-500 rounded-md flex items-center justify-center">
+                    <iconify-icon icon="solar:calculator-bold" class="text-gray-900 text-xl"></iconify-icon>
+                </div>
+                <span class="text-xl font-bold text-white code-font">Caderno<span class="text-green-400">Matemática</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-gray-400 hover:text-green-400 transition code-font">home()</a>
+                <a href="contents.html" class="text-green-400 font-medium code-font">conteudos()</a>
+                <span class="text-gray-400 code-font">exercicios()</span>
+                <span class="text-gray-400 code-font">ferramentas()</span>
+            </div>
+            <button class="md:hidden text-gray-400">
+                <iconify-icon icon="solar:hamburger-menu-linear" class="text-xl"></iconify-icon>
+            </button>
+        </div>
+    </nav>
+
+    <div class="math-symbol" style="top: 10%; left: 5%; animation-delay: 0s;">∑</div>
+    <div class="math-symbol" style="top: 20%; left: 80%; animation-delay: -2s;">∫</div>
+    <div class="math-symbol" style="top: 40%; left: 15%; animation-delay: -5s;">π</div>
+    <div class="math-symbol" style="top: 60%; left: 70%; animation-delay: -7s;">∞</div>
+    <div class="math-symbol" style="top: 30%; left: 50%; animation-delay: -10s;">√</div>
+    <div class="math-symbol" style="top: 80%; left: 30%; animation-delay: -12s;">Δ</div>
+    <div class="math-symbol" style="top: 15%; left: 40%; animation-delay: -8s;">θ</div>
+    <div class="math-symbol" style="top: 50%; left: 90%; animation-delay: -3s;">≠</div>
+
+    <div class="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8 mt-4">
+        <div class="lg:w-1/4 bg-gray-800 rounded-lg p-4 h-fit sticky top-24">
+            <div class="flex items-center mb-6">
+                <h2 class="text-xl font-bold code-font">{{ navegacao }}</h2>
+            </div>
+            <div class="space-y-2">
+                <div>
+                    <a href="contents.html" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">conteudos()</span>
+                    </a>
+                </div>
+
+                <div x-data="{ open: true }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">capitulos()</span>
+                        <iconify-icon :icon="open ? 'solar:alt-arrow-down-bold' : 'solar:alt-arrow-right-bold'" class="text-green-400"></iconify-icon>
+                    </button>
+                    <div x-show="open" x-transition class="ml-4 mt-1 space-y-1">
+                        <a href="chapter1.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm font-bold text-green-400">SistemasNumeração</a>
+                        <a href="chapter2.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">TeoriaConjuntos</a>
+                        <a href="chapter3.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Lógica</a>
+                        <a href="chapter4.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">ÁlgebraBoole</a>
+                        <a href="chapter5.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Matrizes</a>
+                        <a href="chapter6.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Estatística</a>
+                    </div>
+                </div>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">trabalhos()</span>
+                        <iconify-icon :icon="open ? 'solar:alt-arrow-down-bold' : 'solar:alt-arrow-right-bold'" class="text-green-400"></iconify-icon>
+                    </button>
+                    <div x-show="open" x-transition class="ml-4 mt-1 space-y-1">
+                        <a href="work1.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">OperadoresLógicos</a>
+                        <a href="work2.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">BactériasTriCromossomáticas</a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-gray-700">
+                <div class="flex items-center mb-4">
+                    <iconify-icon icon="solar:map-arrow-right-bold" class="text-green-400 text-xl mr-2"></iconify-icon>
+                    <h3 class="text-lg font-bold code-font">SistemasNumeração</h3>
+                </div>
+                
+                <div class="space-y-2">
+                    <a href="#introducao" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Introdução</a>
+                    <a href="#bases-numericas" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">BasesNuméricas</a>
+                    <a href="#conversao-bases" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">ConversãoEntreBases</a>
+                    <a href="#operacoes-binarias" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">OperaçõesBinárias</a>
+                    <a href="#aplicacoes" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Aplicações</a>
+                </div>
+            </div>
+            <div class="mt-6 pt-4 border-t border-gray-700">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-400">Progresso</span>
+                    <span class="text-sm font-medium text-green-400" id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2 mt-2">
+                    <div class="bg-green-500 h-2 rounded-full" id="chapterProgress" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:w-3/4">
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold code-font">SistemasNumeração</h1>
+                    </div>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Ctrl + F" readonly
+                            class="bg-gray-700 border border-gray-600 rounded-md px-4 py-2 pl-10 focus:outline-none focus:ring-1 focus:ring-lime-500 code-font text-sm cursor-pointer">
+                        <iconify-icon icon="solar:magnifer-bold" class="text-gray-500 absolute left-3 top-2.5"></iconify-icon>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="text-xs px-3 py-1 bg-lime-900/50 text-lime-400 rounded-full code-font">#Bases</span>
+                    <span class="text-xs px-3 py-1 bg-lime-900/50 text-lime-400 rounded-full code-font">#Conversão</span>
+                    <span class="text-xs px-3 py-1 bg-lime-900/50 text-lime-400 rounded-full code-font">#Binário</span>
+                    <span class="text-xs px-3 py-1 bg-lime-900/50 text-lime-400 rounded-full code-font">#Hexadecimal</span>
+                </div>
+            </div>
+
+            <section id="introducao" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">introducao()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Os sistemas de numeração são formas de representar quantidades e valores. Eles podem ser classificados em <strong class="text-lime-400">posicionais</strong> e <strong class="text-lime-400">não posicionais</strong>.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">SistemasNãoPosicionais</h3>
+                            <p class="text-gray-300 text-sm">O valor do símbolo não depende da posição que ocupa. Exemplo:</p>
+                            <ul class="mt-2 space-y-1 text-sm text-gray-300">
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Números romanos (I, V, X, L, C, D, M)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Números egípcios (símbolos hieroglíficos)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">SistemasPosicionais</h3>
+                            <p class="text-gray-300 text-sm">O valor do símbolo depende da posição que ocupa. Exemplo:</p>
+                            <ul class="mt-2 space-y-1 text-sm text-gray-300">
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Sistema decimal (base 10)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Sistema binário (base 2)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Sistema hexadecimal (base 16)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">Componentes()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Em um sistema posicional, um número é composto por:</p>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">Símbolo</th>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">Descrição</th>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">Exemplo (245.78)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">Base (b)</td>
+                                        <td class="py-2 px-4">Número de símbolos distintos no sistema</td>
+                                        <td class="py-2 px-4">10 (decimal)</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Dígitos</td>
+                                        <td class="py-2 px-4">Símbolos da base (0 a b-1)</td>
+                                        <td class="py-2 px-4">2, 4, 5, 7, 8</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Parte inteira</td>
+                                        <td class="py-2 px-4">Dígitos à esquerda do ponto</td>
+                                        <td class="py-2 px-4">245</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Parte fracionária</td>
+                                        <td class="py-2 px-4">Dígitos à direita do ponto</td>
+                                        <td class="py-2 px-4">78</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Valor posicional</td>
+                                        <td class="py-2 px-4">Valor = d<sub>i</sub> × b<sup>i</sup></td>
+                                        <td class="py-2 px-4">2×10² + 4×10¹ + 5×10⁰ + 7×10⁻¹ + 8×10⁻²</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="bases-numericas" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">basesNumericas()</h2>
+                </div>
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">A base de um sistema numérico determina quantos dígitos distintos são usados para representar valores. Veja as principais bases usadas em computação:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">Base2</h3>
+                            <p class="text-gray-300 text-sm">Usa dígitos 0 e 1</p>
+                            <p class="text-gray-400 text-xs mt-1">Exemplo: <span class="binary-example">1011.01</span></p>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">Base8</h3>
+                            <p class="text-gray-300 text-sm">Usa dígitos de 0 a 7</p>
+                            <p class="text-gray-400 text-xs mt-1">Exemplo: <span class="binary-example">753.24</span></p>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">Base10</h3>
+                            <p class="text-gray-300 text-sm">Usa dígitos de 0 a 9</p>
+                            <p class="text-gray-400 text-xs mt-1">Exemplo: <span class="binary-example">987.65</span></p>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">Base16</h3>
+                            <p class="text-gray-300 text-sm">Usa dígitos 0-9 e A-F</p>
+                            <p class="text-gray-400 text-xs mt-1">Exemplo: <span class="binary-example">FA3.C8</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">TabelaComparacao()</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">Base</th>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">Nome</th>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">Dígitos</th>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">Aplicação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">2</td>
+                                        <td class="py-2 px-4">Binário</td>
+                                        <td class="py-2 px-4">0, 1</td>
+                                        <td class="py-2 px-4">Circuitos digitais, álgebra booleana</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">8</td>
+                                        <td class="py-2 px-4">Octal</td>
+                                        <td class="py-2 px-4">0-7</td>
+                                        <td class="py-2 px-4">Representação compacta de binário</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">10</td>
+                                        <td class="py-2 px-4">Decimal</td>
+                                        <td class="py-2 px-4">0-9</td>
+                                        <td class="py-2 px-4">Uso cotidiano, matemática</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">16</td>
+                                        <td class="py-2 px-4">Hexadecimal</td>
+                                        <td class="py-2 px-4">0-9, A-F</td>
+                                        <td class="py-2 px-4">Endereçamento de memória, cores web</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">ExemploBinario()</h3>
+                        <p class="text-gray-300 text-sm mb-3">O número binário <span class="binary-example">1011.01</span> pode ser convertido para decimal como:</p>
+                        
+                        <div class="code-block rounded-md p-4 mb-3">
+                            <pre class="text-gray-300 text-sm code-font">
+1×2³ + 0×2² + 1×2¹ + 1×2⁰ + 0×2⁻¹ + 1×2⁻²
+= 8 + 0 + 2 + 1 + 0 + 0.25
+= 11.25 (decimal)</pre>
+                        </div>
+                        
+                        <p class="text-gray-300 text-sm">Note como cada posição representa uma potência de 2, com expoentes decrescentes à esquerda do ponto binário e expoentes negativos à direita.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="conversao-bases" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">conversaoEntreBases()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Existem métodos sistemáticos para converter números entre diferentes bases. Vamos explorar os principais:</p>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">DecimalParaOutraBase()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Para converter um número decimal para outra base:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Parte inteira:</h4>
+                                <ol class="list-decimal list-inside text-sm text-gray-300 space-y-1">
+                                    <li>Dividir o número pela base</li>
+                                    <li>Anotar o resto</li>
+                                    <li>Repetir com o quociente até que seja 0</li>
+                                    <li>O número na nova base é a sequência de restos em ordem inversa</li>
+                                </ol>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Parte fracionária:</h4>
+                                <ol class="list-decimal list-inside text-sm text-gray-300 space-y-1">
+                                    <li>Multiplicar a parte fracionária pela base</li>
+                                    <li>Anotar a parte inteira do resultado</li>
+                                    <li>Repetir com a parte fracionária restante até precisão desejada</li>
+                                    <li>O número na nova base é a sequência de partes inteiras</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+// Exemplo: Converter 25.375 (decimal) para binário
+
+// Parte inteira:
+25 ÷ 2 = 12 resto 1
+12 ÷ 2 = 6 resto 0
+6 ÷ 2 = 3 resto 0
+3 ÷ 2 = 1 resto 1
+1 ÷ 2 = 0 resto 1
+→ 11001 (ler restos de baixo para cima)
+
+// Parte fracionária:
+0.375 × 2 = 0.75 → 0
+0.75 × 2 = 1.5 → 1
+0.5 × 2 = 1.0 → 1
+→ .011
+
+Resultado final: 11001.011</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">OutraBaseParaDecimal()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Para converter de qualquer base para decimal:</p>
+                        
+                        <div class="code-block rounded-md p-4 mb-3">
+                            <pre class="text-gray-300 text-sm code-font">
+// Fórmula geral:
+N = dₙdₙ₋₁...d₁d₀.d₋₁d₋₂... (na base b)
+= dₙ×bⁿ + dₙ₋₁×bⁿ⁻¹ + ... + d₁×b¹ + d₀×b⁰ + d₋₁×b⁻¹ + d₋₂×b⁻² + ...
+
+// Exemplo: Converter 1A3.F (hexadecimal) para decimal
+1×16² + A×16¹ + 3×16⁰ + F×16⁻¹
+= 1×256 + 10×16 + 3×1 + 15×0.0625
+= 256 + 160 + 3 + 0.9375
+= 419.9375 (decimal)</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">BinarioParaOctalHexadecimal()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Conversões entre binário, octal e hexadecimal são simplificadas pela relação entre suas bases (8=2³, 16=2⁴):</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Binário → Octal:</h4>
+                                <ul class="text-sm text-gray-300 space-y-1 list-disc list-inside">
+                                    <li>Agrupar bits de 3 em 3 da direita para esquerda</li>
+                                    <li>Converter cada grupo para seu dígito octal</li>
+                                    <li>Exemplo: <span class="binary-example">101 110 011</span> → <span class="binary-example">5 6 3</span></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Binário → Hexadecimal:</h4>
+                                <ul class="text-sm text-gray-300 space-y-1 list-disc list-inside">
+                                    <li>Agrupar bits de 4 em 4 da direita para esquerda</li>
+                                    <li>Converter cada grupo para seu dígito hexadecimal</li>
+                                    <li>Exemplo: <span class="binary-example">1011 1001</span> → <span class="binary-example">B 9</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="p-4 mt-4">
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="9" class="bg-gray-800 text-center py-2 text-lime-400">Tabela de Conversão Rápida</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <tr>
+                                            <td class="font-bold">Octal/Hex</td>
+                                            <td>0</td>
+                                            <td>1</td>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Binário</td>
+                                            <td>0000</td>
+                                            <td>0001</td>
+                                            <td>0010</td>
+                                            <td>0011</td>
+                                            <td>0100</td>
+                                            <td>0101</td>
+                                            <td>0110</td>
+                                            <td>0111</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Hexadecimal</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>A</td>
+                                            <td>B</td>
+                                            <td>C</td>
+                                            <td>D</td>
+                                            <td>E</td>
+                                            <td>F</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="font-bold">Binário</td>
+                                            <td>1000</td>
+                                            <td>1001</td>
+                                            <td>1010</td>
+                                            <td>1011</td>
+                                            <td>1100</td>
+                                            <td>1101</td>
+                                            <td>1110</td>
+                                            <td>1111</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="operacoes-binarias" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">operacoesBinarias()</h2>
+                </div>
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">As operações aritméticas em binário seguem princípios semelhantes ao sistema decimal, mas com apenas dois dígitos (0 e 1).</p>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">SomaBinaria()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Regras básicas para soma de bits:</p>
+                        
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">A</th>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">B</th>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">Soma</th>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">Carry</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">1</td>
+                                        <td class="py-2 px-4">1</td>
+                                        <td class="py-2 px-4">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">1</td>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">1</td>
+                                        <td class="py-2 px-4">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">1</td>
+                                        <td class="py-2 px-4">1</td>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+// Exemplo: 1011 (11) + 1101 (13)
+  1 1 1    (carry)
+    1 0 1 1
+  + 1 1 0 1
+  --------
+  1 1 0 0 0  (24)
+
+// Passo a passo:
+1 + 1 = 0, carry 1
+1 + 0 + 1 (carry) = 0, carry 1
+0 + 1 + 1 (carry) = 0, carry 1
+1 + 1 + 1 (carry) = 1, carry 1
+1 (carry) = 1</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">SubtracaoBinaria()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Pode ser realizada por:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Método direto:</h4>
+                                <ul class="text-sm text-gray-300 space-y-1 list-disc list-inside">
+                                    <li>0 - 0 = 0</li>
+                                    <li>1 - 0 = 1</li>
+                                    <li>1 - 1 = 0</li>
+                                    <li>0 - 1 = 1 (com empréstimo)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Complemento de 2:</h4>
+                                <ol class="text-sm text-gray-300 space-y-1 list-decimal list-inside">
+                                    <li>Calcular complemento de 2 do subtraendo</li>
+                                    <li>Somar ao minuendo</li>
+                                    <li>Descartar qualquer carry final</li>
+                                </ol>
+                            </div>
+                        </div>
+                        
+                        <div class="code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+// Exemplo: 1101 (13) - 1011 (11) usando complemento de 2
+
+1. Complemento de 2 de 1011:
+   Inverter bits: 0100
+   Somar 1: 0101
+
+2. Somar ao minuendo:
+   1101
+ + 0101
+ ------
+ 10010
+
+3. Descartar carry final: 0010 (2)</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">MultiplicacaoBinaria()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Mais simples que no decimal, seguindo estas regras:</p>
+                        
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">A</th>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">B</th>
+                                        <th class="text-left py-2 px-4 text-lime-400 code-font">Produto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">1</td>
+                                        <td class="py-2 px-4">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">1</td>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">1</td>
+                                        <td class="py-2 px-4">1</td>
+                                        <td class="py-2 px-4">1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+// Exemplo: 101 (5) × 11 (3)
+      1 0 1
+    ×   1 1
+    -------
+        1 0 1  (101 × 1)
+     1 0 1     (101 × 1, deslocado)
+    -------
+     1 1 1 1  (15)</pre>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mt-6">
+        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">DivisaoBinaria()</h3>
+        <p class="text-gray-300 text-sm mb-3">Similar à divisão decimal, mas mais simples:</p>
+        
+        <div class="overflow-x-auto mb-4">
+            <table class="w-full">
+                <thead>
+                    <tr>
+                        <th class="text-left py-2 px-4 text-lime-400 code-font">A</th>
+                        <th class="text-left py-2 px-4 text-lime-400 code-font">B</th>
+                        <th class="text-left py-2 px-4 text-lime-400 code-font">Quociente</th>
+                        <th class="text-left py-2 px-4 text-lime-400 code-font">Resto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-2 px-4">0</td>
+                        <td class="py-2 px-4">1</td>
+                        <td class="py-2 px-4">0</td>
+                        <td class="py-2 px-4">0</td>
+                    </tr>
+                    <tr>
+                        <td class="py-2 px-4">1</td>
+                        <td class="py-2 px-4">1</td>
+                        <td class="py-2 px-4">1</td>
+                        <td class="py-2 px-4">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="code-block rounded-md p-4">
+            <pre class="text-gray-300 text-sm code-font">
+// Exemplo: 1101 (13) ÷ 101 (5)
+1. 1101 ÷ 101:
+   - 101 cabe em 110 (1), resto 1
+   - Desce o 1 → 101
+   - 101 cabe em 101 (1), resto 0
+→ Quociente: 10 (2), Resto: 11 (3)
+
+// Algoritmo completo:
+   __10_
+101)1101
+    -101
+    ---
+      011
+      -0
+      ---
+       11 (resto)</pre>
+        </div>
+    </div>
+    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mt-6">
+        <h3 class="text-lg font-semibold text-lime-400 mb-2 code-font">LimitacoesRepresentacao()</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <h4 class="text-md font-medium text-gray-300 mb-1">Limitação de Bits:</h4>
+                <ul class="text-sm text-gray-300 space-y-2">
+                    <li class="flex items-start">
+                        <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5"></iconify-icon>
+                        <span>Números têm tamanho fixo em computadores (8, 16, 32, 64 bits)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5"></iconify-icon>
+                        <span>Overflow ocorre quando o resultado excede o tamanho</span>
+                    </li>
+                    <li class="flex items-start">
+                        <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5"></iconify-icon>
+                        <span>Exemplo: 8 bits só representa 0-255 (unsigned)</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="text-md font-medium text-gray-300 mb-1">Complemento para 2:</h4>
+                <ul class="text-sm text-gray-300 space-y-2">
+                    <li class="flex items-start">
+                        <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5"></iconify-icon>
+                        <span>Método para representar números negativos</span>
+                    </li>
+                    <li class="flex items-start">
+                        <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5"></iconify-icon>
+                        <span>Bit mais significativo indica sinal (1 = negativo)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5"></iconify-icon>
+                        <span>Para converter: inverter bits e somar 1</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="mt-4 code-block rounded-md p-4">
+            <pre class="text-gray-300 text-sm code-font">
+// Exemplo: Representar -5 em 8 bits (complemento para 2)
+1. Representação positiva: 00000101
+2. Inverter bits: 11111010
+3. Somar 1: 11111011 (-5)
+
+// Faixa para 8 bits: -128 a +127
+// Operações aritméticas funcionam naturalmente
+  00000101 (5)
++ 11111011 (-5)
+= 00000000 (0)</pre>
+        </div>
+    </div>
+                </div>
+            </section>
+
+            <section id="aplicacoes" class="chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">aplicacoes()</h2>
+                </div>
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Os sistemas de numeração, especialmente o binário, têm diversas aplicações em computação e tecnologia:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:microchip-bold" class="text-lime-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-lime-400 code-font">EletrônicaDigital</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Circuitos digitais operam com dois níveis de tensão (alto/baixo), correspondendo a 1/0 binário</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Portas lógicas (AND, OR, NOT) implementam operações booleanas</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Flip-flops e registradores armazenam estados binários</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:code-bold" class="text-lime-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-lime-400 code-font">Programacao</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Representação de dados em memória (bits e bytes)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Operações bitwise (AND, OR, XOR, shifts)</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Representação hexadecimal para endereços de memória e cores</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:database-bold" class="text-lime-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-lime-400 code-font">Armazenamento</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Discos rígidos e SSDs armazenam dados como sequências de bits</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Compactação de dados explora padrões binários</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Protocolos de comunicação serializam dados em binário</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:network-bold" class="text-lime-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-lime-400 code-font">Redes</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Endereços IP (IPv4) representados em binário ou decimal pontuado</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Máscaras de sub-rede usam operações binárias</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-lime-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Protocolos de rede transmitem dados como sequências binárias</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="teoria-pratica" class="mt-12 mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">daTeoriaAPratica()</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="#" class="rounded-lg p-6 border border-gray-700/50"> <!-- content-card transition-colors hover:border-lime-500 -->
+                        <div class="flex items-start mb-4">
+                            <iconify-icon icon="solar:clipboard-list-bold" class="text-gray-400 text-2xl mr-3 mt-0.5"></iconify-icon> <!-- text-lime-400 -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-400 code-font">exercícios()</h3> <!-- text-lime-400 -->
+                                <p class="text-gray-300 text-sm mt-1">Pratique os conceitos aprendidos neste capítulo com exercícios cuidadosamente selecionados.</p>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="rounded-lg p-6 border border-gray-700">
+                        <div class="flex items-start mb-4">
+                            <iconify-icon icon="solar:ruler-pen-bold" class="text-gray-400 text-2xl mr-3 mt-0.5"></iconify-icon>
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-400 code-font">ferramentas()</h3>
+                                <p class="text-gray-300 text-sm mt-1">Utilize ferramentas interativas para converter entre bases numéricas e praticar operações binárias.</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+            
+            <div class="mt-8 flex justify-between items-center">
+                <a href="contents.html" class="text-green-400 hover:text-green-300 transition code-font flex items-center">
+                    <iconify-icon icon="solar:arrow-left-bold" class="mr-1"></iconify-icon>
+                    voltar_conteudos()
+                </a>
+                <a href="chapter2.html" class="bg-green-600 hover:bg-green-700 transition text-white px-4 py-2 rounded-md code-font flex items-center">
+                    proximo_capitulo()
+                    <iconify-icon icon="solar:arrow-right-bold" class="ml-1"></iconify-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800 mt-12">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-500 code-font">© 2025 Caderno de Matemática. Conteúdo livre.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="https://github.com/babisobrinho" class="text-sm text-gray-500 hover:text-green-400 transition duration-200 code-font">babi sobrinho</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="floating-search">
+        <div class="search-box">
+            <div class="flex align-center justify-between gap-2 p-2 bg-gray-900 border-b-gray-100">
+                <div class="search-input-container">
+                    <iconify-icon icon="solar:magnifer-bold" class="search-icon"></iconify-icon>
+                    <input type="text" id="floatingSearchInput" class="search-input" placeholder="encontrar()" autocomplete="off">
+                </div>
+                <button id="closeFloatingSearch" class="close-button">
+                    <iconify-icon icon="solar:close-circle-bold"></iconify-icon>
+                </button>
+            </div>
+            <div class="search-nav">
+                <span id="floatingMatchCount" class="match-count">0/0</span>
+                <div class="nav-buttons">
+                    <button id="floatingPrevMatch" class="nav-button" title="Anterior (Shift+Enter)">
+                        <iconify-icon icon="solar:arrow-up-bold"></iconify-icon>
+                    </button>
+                    <button id="floatingNextMatch" class="nav-button" title="Próximo (Enter)">
+                        <iconify-icon icon="solar:arrow-down-bold"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const floatingSearch = document.querySelector('.floating-search');
+        
+        floatingSearch.style.opacity = '0';
+        floatingSearch.style.pointerEvents = 'none';
+        floatingSearch.style.transform = 'translateY(-20px)';
+        
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                e.preventDefault();
+                toggleSearch();
+            }
+        });
+        
+        searchInput.addEventListener('focus', function() {
+            toggleSearch();
+            document.getElementById('floatingSearchInput').focus();
+        });
+        
+        function toggleSearch() {
+            if (floatingSearch.style.opacity === '1') {
+                closeSearch();
+            } else {
+                openSearch();
+            }
+        }
+        
+        function openSearch() {
+            floatingSearch.style.opacity = '1';
+            floatingSearch.style.pointerEvents = 'auto';
+            floatingSearch.style.transform = 'translateY(0)';
+            document.getElementById('floatingSearchInput').focus();
+        }
+        
+        function closeSearch() {
+            floatingSearch.style.opacity = '0';
+            floatingSearch.style.pointerEvents = 'none';
+            floatingSearch.style.transform = 'translateY(-20px)';
+            clearHighlights();
+            document.getElementById('floatingSearchInput').value = '';
+            document.getElementById('floatingMatchCount').textContent = '0/0';
+        }
+        
+        const floatingInput = document.getElementById('floatingSearchInput');
+        const prevBtn = document.getElementById('floatingPrevMatch');
+        const nextBtn = document.getElementById('floatingNextMatch');
+        const closeBtn = document.getElementById('closeFloatingSearch');
+        const countEl = document.getElementById('floatingMatchCount');
+        
+        let currentIndex = -1;
+        let matches = [];
+        
+        floatingInput.addEventListener('input', function() {
+            searchTerm = this.value.trim();
+            if (searchTerm.length >= 2) {
+                performSearch();
+            } else {
+                clearHighlights();
+                countEl.textContent = '0/0';
+            }
+        });
+        
+        prevBtn.addEventListener('click', function() {
+            navigate(-1);
+        });
+        
+        nextBtn.addEventListener('click', function() {
+            navigate(1);
+        });
+        
+        closeBtn.addEventListener('click', closeSearch);
+        
+        floatingInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                if (e.shiftKey) {
+                    navigate(-1);
+                } else {
+                    navigate(1);
+                }
+            } else if (e.key === 'Escape') {
+                closeSearch();
+            }
+        });
+        
+        function performSearch() {
+            clearHighlights();
+            matches = [];
+            currentIndex = -1;
+            
+            const content = document.querySelector('.lg\\:w-3\\/4');
+            const textNodes = getTextNodes(content);
+            const term = floatingInput.value.trim().toLowerCase();
+            
+            if (term.length < 2) return;
+            
+            textNodes.forEach(node => {
+                const nodeVal = node.nodeValue.toLowerCase();
+                let idx = -1;
+                
+                while ((idx = nodeVal.indexOf(term, idx + 1)) !== -1) {
+                    if (idx === -1) break;
+                    matches.push({
+                        node: node,
+                        index: idx,
+                        length: term.length
+                    });
+                }
+            });
+            
+            if (matches.length > 0) {
+                currentIndex = 0;
+                highlightCurrentMatch();
+            }
+            
+            updateMatchCount();
+        }
+        
+        function getTextNodes(element) {
+            const walker = document.createTreeWalker(
+                element,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
+            
+            const textNodes = [];
+            let node;
+            
+            while (node = walker.nextNode()) {
+                if (node.nodeValue.trim().length > 0) {
+                    textNodes.push(node);
+                }
+            }
+            
+            return textNodes;
+        }
+        
+        function highlightCurrentMatch() {
+            if (currentIndex < 0 || currentIndex >= matches.length) return;
+            
+            const match = matches[currentIndex];
+            const range = document.createRange();
+            range.setStart(match.node, match.index);
+            range.setEnd(match.node, match.index + match.length);
+            
+            const span = document.createElement('span');
+            span.className = 'search-highlight current';
+            range.surroundContents(span);
+            
+            span.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            });
+        }
+        
+        function clearHighlights() {
+            document.querySelectorAll('.search-highlight').forEach(hl => {
+                const parent = hl.parentNode;
+                parent.replaceChild(document.createTextNode(hl.textContent), hl);
+                parent.normalize();
+            });
+        }
+        
+        function navigate(direction) {
+            if (matches.length === 0) return;
+            
+            currentIndex = (currentIndex + direction + matches.length) % matches.length;
+            highlightCurrentMatch();
+            updateMatchCount();
+        }
+        
+        function updateMatchCount() {
+            countEl.textContent = matches.length > 0 ? 
+                `${currentIndex + 1}/${matches.length}` : '0/0';
+        }
+        
+        window.addEventListener('scroll', function() {
+            const chapterProgress = document.getElementById('chapterProgress');
+            const progressText = document.getElementById('progressText');
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPosition = window.scrollY;
+            
+            const scrollProgress = (scrollPosition / totalHeight) * 100;
+            const boundedProgress = Math.min(100, Math.max(0, scrollProgress));
+            chapterProgress.style.width = boundedProgress + '%';
+            progressText.textContent = Math.round(boundedProgress) + '%';
+            
+            const sections = document.querySelectorAll('.chapter-nav');
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            const navItems = document.querySelectorAll('.sidebar-item');
+            navItems.forEach(item => {
+                item.classList.remove('active-section');
+                if (item.getAttribute('href') === `#${current}`) {
+                    item.classList.add('active-section');
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estatística - Caderno Virtual Matemática TPSI</title>
+    <link rel="icon" type="image/x-icon" href="favicon.svg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0a0e17 0%, #122a3a 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(59, 130, 246, 0.1);
+        }
+        .code-block {
+            background-color: #1e293b;
+            border-left: 4px solid rgb(96, 165, 250);
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+        .sidebar-item {
+            transition: all 0.3s ease;
+        }
+        .sidebar-item:hover {
+            background-color: #1e293b;
+            border-left: 3px solid #3b82f6;
+        }
+        .active-section {
+            background-color: #1e293b;
+            border-left: 3px solid #3b82f6;
+            font-weight: 500;
+        }
+        .content-card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+        }
+        .content-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px -3px rgba(59, 130, 246, 0.2);
+        }
+        .math-symbol {
+            position: absolute;
+            color: rgba(59, 130, 246, 0.1);
+            font-size: 2rem;
+            animation: float 15s infinite linear;
+            pointer-events: none;
+            user-select: none;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            min-width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+        th {
+            background-color: #1e293b;
+            font-weight: 600;
+        }
+        tr:hover td {
+            background-color: #1e404b;
+        }
+        .binary-example {
+            font-family: 'Fira Code', monospace;
+            background-color: #1e293b;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            color: rgb(96, 165, 250);
+        }
+        .chapter-nav {
+            scroll-margin-top: 120px;
+        }
+        .floating-search {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            transition: all 0.3s ease;
+            max-width: 300px;
+        }
+        
+        .search-box {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            overflow: hidden;
+        }
+        
+        .search-input-container {
+            position: relative;
+            flex-grow: 1;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 8px 12px 8px 32px;
+            color: white;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+        
+        .search-nav {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(30, 41, 59, 0.9);
+            border-top: 1px solid #334155;
+        }
+        
+        .match-count {
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-right: 10px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .nav-button {
+            background: #334155;
+            border: none;
+            border-radius: 4px;
+            color: #e2e8f0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-button:hover {
+            background: #475569;
+            color: #3b82f6;
+        }
+        
+        .close-button {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            margin-left: auto;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .close-button:hover {
+            color: #ef4444;
+        }
+        
+        .search-highlight {
+            background-color: rgba(234, 179, 8, 0.3);
+            border-bottom: 2px solid #eab308;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        .search-highlight.current {
+            background-color: rgba(234, 179, 8, 0.6);
+            border-bottom: 2px solid #f59e0b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-900 text-gray-100">
+    <nav class="bg-gray-800 border-b border-gray-700 sticky top-0 z-20">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="p-1 bg-green-500 rounded-md flex items-center justify-center">
+                    <iconify-icon icon="solar:calculator-bold" class="text-gray-900 text-xl"></iconify-icon>
+                </div>
+                <span class="text-xl font-bold text-white code-font">Caderno<span class="text-green-400">Matemática</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-gray-400 hover:text-green-400 transition code-font">home()</a>
+                <a href="contents.html" class="text-green-400 font-medium code-font">conteudos()</a>
+                <span class="text-gray-400 code-font">exercicios()</span>
+                <span class="text-gray-400 code-font">ferramentas()</span>
+            </div>
+            <button class="md:hidden text-gray-400">
+                <iconify-icon icon="solar:hamburger-menu-linear" class="text-xl"></iconify-icon>
+            </button>
+        </div>
+    </nav>
+
+    <div class="math-symbol" style="top: 10%; left: 5%; animation-delay: 0s;">∑</div>
+    <div class="math-symbol" style="top: 20%; left: 80%; animation-delay: -2s;">∫</div>
+    <div class="math-symbol" style="top: 40%; left: 15%; animation-delay: -5s;">π</div>
+    <div class="math-symbol" style="top: 60%; left: 70%; animation-delay: -7s;">∞</div>
+    <div class="math-symbol" style="top: 30%; left: 50%; animation-delay: -10s;">√</div>
+    <div class="math-symbol" style="top: 80%; left: 30%; animation-delay: -12s;">Δ</div>
+    <div class="math-symbol" style="top: 15%; left: 40%; animation-delay: -8s;">θ</div>
+    <div class="math-symbol" style="top: 50%; left: 90%; animation-delay: -3s;">≠</div>
+
+    <div class="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8 mt-4">
+        <div class="lg:w-1/4 bg-gray-800 rounded-lg p-4 h-fit sticky top-24">
+            <div class="flex items-center mb-6">
+                <h2 class="text-xl font-bold code-font">{{ navegacao }}</h2>
+            </div>
+            <div class="space-y-2">
+                <div>
+                    <a href="contents.html" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">conteudos()</span>
+                    </a>
+                </div>
+
+                <div x-data="{ open: true }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">capitulos()</span>
+                        <iconify-icon :icon="open ? 'solar:alt-arrow-down-bold' : 'solar:alt-arrow-right-bold'" class="text-blue-400"></iconify-icon>
+                    </button>
+                    <div x-show="open" x-transition class="ml-4 mt-1 space-y-1">
+                        <a href="chapter1.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">SistemasNumeração</a>
+                        <a href="chapter2.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">TeoriaConjuntos</a>
+                        <a href="chapter3.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Lógica</a>
+                        <a href="chapter4.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">ÁlgebraBoole</a>
+                        <a href="chapter5.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Matrizes</a>
+                        <a href="chapter6.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm font-bold text-blue-400">Estatística</a>
+                    </div>
+                </div>
+                <div x-data="{ open: false }">
+                    <button @click="open = !open" class="w-full flex justify-between items-center py-2 px-3 rounded-md hover:bg-gray-700">
+                        <span class="code-font">trabalhos()</span>
+                        <iconify-icon :icon="open ? 'solar:alt-arrow-down-bold' : 'solar:alt-arrow-right-bold'" class="text-blue-400"></iconify-icon>
+                    </button>
+                    <div x-show="open" x-transition class="ml-4 mt-1 space-y-1">
+                        <a href="work1.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">OperadoresLógicos</a>
+                        <a href="work2.html" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">BactériasTriCromossomáticas</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-700">
+                <div class="flex items-center mb-4">
+                    <iconify-icon icon="solar:map-arrow-right-bold" class="text-blue-400 text-xl mr-2"></iconify-icon>
+                    <h3 class="text-lg font-bold code-font">Estatística</h3>
+                </div>
+                
+                <div class="space-y-2">
+                    <a href="#introducao" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Introdução</a>
+                    <a href="#probabilidade" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Probabilidade</a>
+                    <a href="#teorema-bayes" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">TeoremaBayes</a>
+                    <a href="#probabilidade-total" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">ProbabilidadeTotal</a>
+                    <a href="#aplicacoes" class="block sidebar-item px-3 py-2 rounded-md code-font text-sm">Aplicações</a>
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-gray-700">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-400">Progresso</span>
+                    <span class="text-sm font-medium text-blue-400" id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-full h-2 mt-2">
+                    <div class="bg-blue-500 h-2 rounded-full" id="chapterProgress" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:w-3/4">
+            <div class="bg-gray-800 rounded-lg p-6 mb-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold code-font">Estatística</h1>
+                    </div>
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Ctrl + F" readonly
+                            class="bg-gray-700 border border-gray-600 rounded-md px-4 py-2 pl-10 focus:outline-none focus:ring-1 focus:ring-blue-500 code-font text-sm cursor-pointer">
+                        <iconify-icon icon="solar:magnifer-bold" class="text-gray-500 absolute left-3 top-2.5"></iconify-icon>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="text-xs px-3 py-1 bg-blue-900/50 text-blue-400 rounded-full code-font">#Probabilidade</span>
+                    <span class="text-xs px-3 py-1 bg-blue-900/50 text-blue-400 rounded-full code-font">#TeoremaBayes</span>
+                    <span class="text-xs px-3 py-1 bg-blue-900/50 text-blue-400 rounded-full code-font">#Conjuntos</span>
+                    <span class="text-xs px-3 py-1 bg-blue-900/50 text-blue-400 rounded-full code-font">#Distribuição</span>
+                </div>
+            </div>
+
+            <section id="introducao" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">introducao()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">A estatística é a ciência que coleta, organiza, analisa e interpreta dados para extrair informações úteis e tomar decisões. Neste capítulo focaremos principalmente em conceitos probabilísticos.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-blue-400 mb-2 code-font">EstatísticaDescritiva</h3>
+                            <p class="text-gray-300 text-sm">Métodos para resumir e descrever conjuntos de dados:</p>
+                            <ul class="mt-2 space-y-1 text-sm text-gray-300">
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Medidas de tendência central (média, mediana, moda)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Medidas de dispersão (variância, desvio padrão)</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Representações gráficas (histogramas, boxplots)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <h3 class="text-lg font-semibold text-blue-400 mb-2 code-font">EstatísticaInferencial</h3>
+                            <p class="text-gray-300 text-sm">Técnicas para tirar conclusões sobre populações a partir de amostras:</p>
+                            <ul class="mt-2 space-y-1 text-sm text-gray-300">
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Testes de hipóteses</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Intervalos de confiança</span>
+                                </li>
+                                <li class="flex items-center">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 text-xs"></iconify-icon>
+                                    <span>Análise de regressão</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2 code-font">ConceitosFundamentais()</h3>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left py-2 px-4 text-blue-400 code-font">Termo</th>
+                                        <th class="text-left py-2 px-4 text-blue-400 code-font">Definição</th>
+                                        <th class="text-left py-2 px-4 text-blue-400 code-font">Exemplo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">População</td>
+                                        <td class="py-2 px-4">Conjunto completo de indivíduos ou objetos de interesse</td>
+                                        <td class="py-2 px-4">Todos os alunos da escola</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Amostra</td>
+                                        <td class="py-2 px-4">Subconjunto representativo da população</td>
+                                        <td class="py-2 px-4">50 alunos selecionados aleatoriamente</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Variável</td>
+                                        <td class="py-2 px-4">Característica que pode assumir diferentes valores</td>
+                                        <td class="py-2 px-4">Altura, peso, tipo sanguíneo</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Parâmetro</td>
+                                        <td class="py-2 px-4">Medida descritiva de uma população</td>
+                                        <td class="py-2 px-4">Média de altura de todos os alunos</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">Estatística</td>
+                                        <td class="py-2 px-4">Medida descritiva de uma amostra</td>
+                                        <td class="py-2 px-4">Média de altura dos alunos na amostra</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="probabilidade" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">probabilidade()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Probabilidade é a medida da chance de um evento ocorrer. Os axiomas de Kolmogorov estabelecem as bases matemáticas da teoria da probabilidade:</p>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2 code-font">AxiomasDeKolmogorov()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Dado um espaço de acontecimentos (S, F, P), onde F é uma σ-Álgebra associada ao conjunto S e P é uma função que parte de S para o conjunto dos números reais:</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div class="bg-gray-700/50 p-3 rounded-md">
+                                <h4 class="text-md font-medium text-blue-300 mb-1">1. Não Negatividade</h4>
+                                <p class="text-gray-300 text-sm">Todo acontecimento tem probabilidade não negativa:</p>
+                                <div class="code-block rounded-md p-2 mt-2">
+                                    <pre class="text-gray-300 text-xs code-font">∀E∈F, P(E) ≥ 0</pre>
+                                </div>
+                            </div>
+                            <div class="bg-gray-700/50 p-3 rounded-md">
+                                <h4 class="text-md font-medium text-blue-300 mb-1">2. Normalização</h4>
+                                <p class="text-gray-300 text-sm">A probabilidade do espaço amostral é 1:</p>
+                                <div class="code-block rounded-md p-2 mt-2">
+                                    <pre class="text-gray-300 text-xs code-font">P(S) = 1</pre>
+                                </div>
+                            </div>
+                            <div class="bg-gray-700/50 p-3 rounded-md">
+                                <h4 class="text-md font-medium text-blue-300 mb-1">3. Aditividade</h4>
+                                <p class="text-gray-300 text-sm">Para eventos mutuamente exclusivos:</p>
+                                <div class="code-block rounded-md p-2 mt-2">
+                                    <pre class="text-gray-300 text-xs code-font">P(⋃E_i) = ΣP(E_i)</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2 code-font">ConsequenciasDosAxiomas()</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Probabilidade do Complementar</h4>
+                                <div class="code-block rounded-md p-3 mb-2">
+                                    <pre class="text-gray-300 text-sm code-font">P(Eᶜ) = 1 - P(E)</pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Probabilidade do Conjunto Vazio</h4>
+                                <div class="code-block rounded-md p-3 mb-2">
+                                    <pre class="text-gray-300 text-sm code-font">P(∅) = 0</pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Monotonicidade</h4>
+                                <div class="code-block rounded-md p-3 mb-2">
+                                    <pre class="text-gray-300 text-sm code-font">A ⊆ B ⇒ P(A) ≤ P(B)</pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Probabilidade da União</h4>
+                                <div class="code-block rounded-md p-3 mb-2">
+                                    <pre class="text-gray-300 text-sm code-font">P(A∪B) = P(A) + P(B) - P(A∩B)</pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2 code-font">ProbabilidadeCondicional()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Sejam A e B dois acontecimentos com P(A) > 0, a probabilidade condicional de B dado A é:</p>
+                        
+                        <div class="code-block rounded-md p-4 mb-3">
+                            <pre class="text-gray-300 text-sm code-font">
+P(B|A) = P(A∩B) / P(A)
+                            </pre>
+                        </div>
+                        
+                        <p class="text-gray-300 text-sm mb-3">Dois eventos A e B são independentes se:</p>
+                        
+                        <div class="code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+P(A∩B) = P(A) × P(B)
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="teorema-bayes" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">teoremaBayes()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">O Teorema de Bayes relaciona as probabilidades condicionais e marginais de eventos aleatórios, permitindo atualizar nossas crenças à luz de novas evidências.</p>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2 code-font">FormulaBasica()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Para dois eventos A e B com P(A) > 0 e P(B) > 0:</p>
+                        
+                        <div class="code-block rounded-md p-4 mb-3">
+                            <pre class="text-gray-300 text-sm code-font">
+P(A|B) × P(B) = P(B|A) × P(A)
+                            </pre>
+                        </div>
+                        
+                        <p class="text-gray-300 text-sm">Que pode ser reescrito como:</p>
+                        
+                        <div class="code-block rounded-md p-4 mt-3">
+                            <pre class="text-gray-300 text-sm code-font">
+P(A|B) = [P(B|A) × P(A)] / P(B)
+                            </pre>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2 code-font">Aplicacao()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Exemplo com tipos sanguíneos (baseado no documento de apoio):</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Dados:</h4>
+                                <ul class="text-sm text-gray-300 space-y-2">
+                                    <li>P(A) = 0.42 (probabilidade de tipo A)</li>
+                                    <li>P(B) = 0.10 (probabilidade de tipo B)</li>
+                                    <li>P(+|A) = 0.85 (probabilidade de RH+ dado tipo A)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-md font-medium text-gray-300 mb-1">Pergunta:</h4>
+                                <p class="text-sm text-gray-300">Qual a probabilidade de uma pessoa com RH+ ter sangue tipo A?</p>
+                            </div>
+                        </div>
+                        
+                        <div class="code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+// Supondo P(+) = 0.85 (simplificado)
+P(A|+) = [P(+|A) × P(A)] / P(+)
+        = (0.85 × 0.42) / 0.85
+        = 0.42
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="probabilidade-total" class="mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">probabilidadeTotal()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">O Teorema da Probabilidade Total permite calcular a probabilidade de um evento a partir de suas probabilidades condicionadas a uma partição do espaço amostral.</p>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700 mb-6">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2 code-font">Definicao()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Para uma partição {A<sub>n</sub>} de S e qualquer evento E:</p>
+                        
+                        <div class="code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+P(E) = Σ [P(E|Aₙ) × P(Aₙ)]
+                            </pre>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2 code-font">ExemploTiposSanguineos()</h3>
+                        <p class="text-gray-300 text-sm mb-3">Usando os dados da ficha de apoio sobre distribuição de tipos sanguíneos:</p>
+                        
+                        <div class="overflow-x-auto mb-4">
+                            <table class="w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left py-2 px-4 text-blue-400 code-font">Tipo</th>
+                                        <th class="text-left py-2 px-4 text-blue-400 code-font">Subtipo</th>
+                                        <th class="text-left py-2 px-4 text-blue-400 code-font">Frequência</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4">0</td>
+                                        <td class="py-2 px-4">00</td>
+                                        <td class="py-2 px-4">14,06%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">A</td>
+                                        <td class="py-2 px-4">A0, AA</td>
+                                        <td class="py-2 px-4">33,20%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">B</td>
+                                        <td class="py-2 px-4">B0, BB</td>
+                                        <td class="py-2 px-4">33,20%</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">AB</td>
+                                        <td class="py-2 px-4">AB</td>
+                                        <td class="py-2 px-4">19,53%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="code-block rounded-md p-4">
+                            <pre class="text-gray-300 text-sm code-font">
+// Probabilidade de RH+ usando probabilidade total
+P(+) = P(+|0)P(0) + P(+|A)P(A) + P(+|B)P(B) + P(+|AB)P(AB)
+     = (0.75)(0.1406) + (0.85)(0.3320) + (0.85)(0.3320) + (0.85)(0.1953)
+     ≈ 0.8415 (84,15%)
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="aplicacoes" class="chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">aplicacoes()</h2>
+                </div>
+                
+                <div class="content-card rounded-lg p-6">
+                    <p class="mb-4">Os conceitos de probabilidade, Teorema de Bayes e Probabilidade Total têm diversas aplicações práticas:</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:medical-bold" class="text-blue-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-blue-400 code-font">TestesDiagnosticos</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Calcular probabilidade de doença dado um teste positivo</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Avaliar sensibilidade e especificidade de testes</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:atom-bold" class="text-blue-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-blue-400 code-font">Genetica</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Prever probabilidade de herança de características</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Estudar distribuição de tipos sanguíneos (como no documento)</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:shield-warning-bold" class="text-blue-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-blue-400 code-font">Seguranca</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Sistemas de detecção de spam em emails</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Algoritmos de classificação de risco</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+                            <div class="flex items-center mb-2">
+                                <iconify-icon icon="solar:graph-bold" class="text-blue-400 text-xl mr-2"></iconify-icon>
+                                <h3 class="text-lg font-semibold text-blue-400 code-font">CienciaDeDados</h3>
+                            </div>
+                            <ul class="text-sm text-gray-300 space-y-2">
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Algoritmos de aprendizado de máquina</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <iconify-icon icon="solar:arrow-right-bold" class="text-blue-400 mr-2 mt-0.5 flex-shrink-0"></iconify-icon>
+                                    <span>Sistemas de recomendação</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="teoria-pratica" class="mt-12 mb-12 chapter-nav">
+                <div class="flex items-center mb-6">
+                    <h2 class="text-xl font-bold code-font">daTeoriaAPratica()</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <a href="#" class="rounded-lg p-6 border border-gray-700/50 hover:border-blue-500 content-card transition-colors">
+                        <div class="flex items-start mb-4">
+                            <iconify-icon icon="solar:clipboard-list-bold" class="text-blue-400 text-2xl mr-3 mt-0.5"></iconify-icon>
+                            <div>
+                                <h3 class="text-lg font-semibold text-blue-400 code-font">exercícios()</h3>
+                                <p class="text-gray-300 text-sm mt-1">Pratique os conceitos aprendidos neste capítulo com exercícios sobre probabilidade, Teorema de Bayes e Probabilidade Total.</p>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="rounded-lg p-6 border border-gray-700 hover:border-blue-500 content-card transition-colors">
+                        <div class="flex items-start mb-4">
+                            <iconify-icon icon="solar:ruler-pen-bold" class="text-blue-400 text-2xl mr-3 mt-0.5"></iconify-icon>
+                            <div>
+                                <h3 class="text-lg font-semibold text-blue-400 code-font">ferramentas()</h3>
+                                <p class="text-gray-300 text-sm mt-1">Utilize ferramentas interativas para simular distribuições de probabilidade e testar o Teorema de Bayes.</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <div class="mt-8 flex justify-between items-center">
+                <a href="contents.html" class="text-blue-400 hover:text-blue-300 transition code-font flex items-center">
+                    <iconify-icon icon="solar:arrow-left-bold" class="mr-1"></iconify-icon>
+                    voltar_conteudos()
+                </a>
+                <a href="#" class="bg-blue-600 hover:bg-blue-700 transition text-white px-4 py-2 rounded-md code-font flex items-center">
+                    proximo_capitulo()
+                    <iconify-icon icon="solar:arrow-right-bold" class="ml-1"></iconify-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800 mt-12">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm text-gray-500 code-font">© 2025 Caderno de Matemática. Conteúdo livre.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="https://github.com/babisobrinho" class="text-sm text-gray-500 hover:text-blue-400 transition duration-200 code-font">babi sobrinho</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="floating-search">
+        <div class="search-box">
+            <div class="flex align-center justify-between gap-2 p-2 bg-gray-900 border-b-gray-100">
+                <div class="search-input-container">
+                    <iconify-icon icon="solar:magnifer-bold" class="search-icon"></iconify-icon>
+                    <input type="text" id="floatingSearchInput" class="search-input" placeholder="encontrar()" autocomplete="off">
+                </div>
+                <button id="closeFloatingSearch" class="close-button">
+                    <iconify-icon icon="solar:close-circle-bold"></iconify-icon>
+                </button>
+            </div>
+            <div class="search-nav">
+                <span id="floatingMatchCount" class="match-count">0/0</span>
+                <div class="nav-buttons">
+                    <button id="floatingPrevMatch" class="nav-button" title="Anterior (Shift+Enter)">
+                        <iconify-icon icon="solar:arrow-up-bold"></iconify-icon>
+                    </button>
+                    <button id="floatingNextMatch" class="nav-button" title="Próximo (Enter)">
+                        <iconify-icon icon="solar:arrow-down-bold"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const floatingSearch = document.querySelector('.floating-search');
+            
+            floatingSearch.style.opacity = '0';
+            floatingSearch.style.pointerEvents = 'none';
+            floatingSearch.style.transform = 'translateY(-20px)';
+            
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                    e.preventDefault();
+                    toggleSearch();
+                }
+            });
+            
+            searchInput.addEventListener('focus', function() {
+                toggleSearch();
+                document.getElementById('floatingSearchInput').focus();
+            });
+            
+            function toggleSearch() {
+                if (floatingSearch.style.opacity === '1') {
+                    closeSearch();
+                } else {
+                    openSearch();
+                }
+            }
+            
+            function openSearch() {
+                floatingSearch.style.opacity = '1';
+                floatingSearch.style.pointerEvents = 'auto';
+                floatingSearch.style.transform = 'translateY(0)';
+                document.getElementById('floatingSearchInput').focus();
+            }
+            
+            function closeSearch() {
+                floatingSearch.style.opacity = '0';
+                floatingSearch.style.pointerEvents = 'none';
+                floatingSearch.style.transform = 'translateY(-20px)';
+                clearHighlights();
+                document.getElementById('floatingSearchInput').value = '';
+                document.getElementById('floatingMatchCount').textContent = '0/0';
+            }
+            
+            const floatingInput = document.getElementById('floatingSearchInput');
+            const prevBtn = document.getElementById('floatingPrevMatch');
+            const nextBtn = document.getElementById('floatingNextMatch');
+            const closeBtn = document.getElementById('closeFloatingSearch');
+            const countEl = document.getElementById('floatingMatchCount');
+            
+            let currentIndex = -1;
+            let matches = [];
+            
+            floatingInput.addEventListener('input', function() {
+                searchTerm = this.value.trim();
+                if (searchTerm.length >= 2) {
+                    performSearch();
+                } else {
+                    clearHighlights();
+                    countEl.textContent = '0/0';
+                }
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                navigate(-1);
+            });
+            
+            nextBtn.addEventListener('click', function() {
+                navigate(1);
+            });
+            
+            closeBtn.addEventListener('click', closeSearch);
+            
+            floatingInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (e.shiftKey) {
+                        navigate(-1);
+                    } else {
+                        navigate(1);
+                    }
+                } else if (e.key === 'Escape') {
+                    closeSearch();
+                }
+            });
+            
+            function performSearch() {
+                clearHighlights();
+                matches = [];
+                currentIndex = -1;
+                
+                const content = document.querySelector('.lg\\:w-3\\/4');
+                const textNodes = getTextNodes(content);
+                const term = floatingInput.value.trim().toLowerCase();
+                
+                if (term.length < 2) return;
+                
+                textNodes.forEach(node => {
+                    const nodeVal = node.nodeValue.toLowerCase();
+                    let idx = -1;
+                    
+                    while ((idx = nodeVal.indexOf(term, idx + 1)) !== -1) {
+                        if (idx === -1) break;
+                        matches.push({
+                            node: node,
+                            index: idx,
+                            length: term.length
+                        });
+                    }
+                });
+                
+                if (matches.length > 0) {
+                    currentIndex = 0;
+                    highlightCurrentMatch();
+                }
+                
+                updateMatchCount();
+            }
+            
+            function getTextNodes(element) {
+                const walker = document.createTreeWalker(
+                    element,
+                    NodeFilter.SHOW_TEXT,
+                    null,
+                    false
+                );
+                
+                const textNodes = [];
+                let node;
+                
+                while (node = walker.nextNode()) {
+                    if (node.nodeValue.trim().length > 0) {
+                        textNodes.push(node);
+                    }
+                }
+                
+                return textNodes;
+            }
+            
+            function highlightCurrentMatch() {
+                if (currentIndex < 0 || currentIndex >= matches.length) return;
+                
+                const match = matches[currentIndex];
+                const range = document.createRange();
+                range.setStart(match.node, match.index);
+                range.setEnd(match.node, match.index + match.length);
+                
+                const span = document.createElement('span');
+                span.className = 'search-highlight current';
+                range.surroundContents(span);
+                
+                span.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+            
+            function clearHighlights() {
+                document.querySelectorAll('.search-highlight').forEach(hl => {
+                    const parent = hl.parentNode;
+                    parent.replaceChild(document.createTextNode(hl.textContent), hl);
+                    parent.normalize();
+                });
+            }
+            
+            function navigate(direction) {
+                if (matches.length === 0) return;
+                
+                currentIndex = (currentIndex + direction + matches.length) % matches.length;
+                highlightCurrentMatch();
+                updateMatchCount();
+            }
+            
+            function updateMatchCount() {
+                countEl.textContent = matches.length > 0 ? 
+                    `${currentIndex + 1}/${matches.length}` : '0/0';
+            }
+            
+            window.addEventListener('scroll', function() {
+                const chapterProgress = document.getElementById('chapterProgress');
+                const progressText = document.getElementById('progressText');
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPosition = window.scrollY;
+                
+                const scrollProgress = (scrollPosition / totalHeight) * 100;
+                const boundedProgress = Math.min(100, Math.max(0, scrollProgress));
+                chapterProgress.style.width = boundedProgress + '%';
+                progressText.textContent = Math.round(boundedProgress) + '%';
+                
+                const sections = document.querySelectorAll('.chapter-nav');
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                const navItems = document.querySelectorAll('.sidebar-item');
+                navItems.forEach(item => {
+                    item.classList.remove('active-section');
+                    if (item.getAttribute('href') === `#${current}`) {
+                        item.classList.add('active-section');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
